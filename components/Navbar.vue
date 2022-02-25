@@ -1,28 +1,22 @@
 <template>
   <header class="header">
-    <div class="container">
-      <div class="header-layout">
-        <div class="logo"><nuxt-link to="/">Logo</nuxt-link></div>
-        <div class="search">
-          <input type="text" placeholder="Search" />
-        </div>
-      </div>
-      <div class="header-layout">
+    <div class="container header-container">
+        <nuxt-link class="logo" to="/">
+          <img src="../assets/images/logo.png" alt="Ftent">
+        </nuxt-link>
+        <NavbarSearch class="search"/>
         <nav class="nav">
           <ul class="nav-list">
             <li class="nav-list-item"><nuxt-link to="/">Home</nuxt-link></li>
-            <li class="nav-list-item"><nuxt-link to="/">Boats</nuxt-link></li>
-            <li class="nav-list-item"><nuxt-link to="/">About us</nuxt-link></li>
-            <li class="nav-list-item"><nuxt-link to="/">Contact us</nuxt-link></li>
-            <li class="nav-list-item"><nuxt-link to="/">Profile</nuxt-link></li>
-            <li class="nav-list-item"><nuxt-link to="/">Cart</nuxt-link></li>
+            <li class="nav-list-item"><nuxt-link to="/boats">Boats</nuxt-link></li>
+            <li class="nav-list-item"><nuxt-link to="/about">About us</nuxt-link></li>
+            <li class="nav-list-item"><nuxt-link to="/contact">Contact us</nuxt-link></li>
+            <li class="nav-list-item"><nuxt-link to="/account">Account</nuxt-link></li>
+            <li class="nav-list-item"><nuxt-link to="/cart">Cart</nuxt-link></li>
           </ul>
         </nav>
-        <div class="cart">
-          0$ 0 products
-        </div>
+        <NavbarCart class="cart"/>
       </div>
-    </div>
   </header>
 </template>
 
@@ -33,18 +27,55 @@ export default {
 </script>
 
 <style scoped>
+  .logo { grid-area: logo; }
+  .search { grid-area: search; }
+  .nav { grid-area: nav; }
+  .cart { grid-area: cart; }
   .header {
     height: 250px;
     border-bottom: 1px solid lightgrey;
-    display: flex;
-    flex-direction: column;
+    background: url("../assets/images/header.jpg") center no-repeat;
+    background-size: cover;
   }
-  .header-layout {
+  .header-container {
+    height: 100%;
+    display: grid;
+    grid-template-areas:
+    'logo logo logo logo search'
+    'logo logo logo logo search'
+    'nav nav nav nav cart';
+
+  }
+  .nav-list {
+    height: 100%;
+  }
+  .nav-list-item:not(:last-child) {
+    margin-right: 25px;
+  }
+  a {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 400;
+  }
+  .logo, .nav-list, .cart, .search {
+    display: flex;
+    align-items: center;
+  }
+  .cart, .search {
+    justify-content: end;
+  }
+  .cart {
     display: flex;
     justify-content: space-between;
   }
-  .nav-list {
-    list-style: none;
+  .logo {
+    width: 100%;
+    height: 100%;
     display: flex;
+    align-items: center;
+  }
+  .logo img {
+    width: 250px;
+    height: 90px;
   }
 </style>
