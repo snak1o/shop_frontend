@@ -1,7 +1,7 @@
 <template>
   <li class="card">
     <router-link class="card-description" to="/">
-      <img class="card-image" src="../assets/images/1.png" alt="Perävaunun pressu 470/218">
+      <img class="card-image" src="../static/1.png" alt="Perävaunun pressu 470/218">
       <span class="card-title">Perävaunun pressu 470/218</span>
       <span class="card-price">160,00€ <span class="price-suffix">Hinta sis. ALV</span></span>
     </router-link>
@@ -10,7 +10,6 @@
         Add to cart
       </button>
     </div>
-
   </li>
 </template>
 
