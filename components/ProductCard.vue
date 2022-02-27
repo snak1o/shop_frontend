@@ -1,9 +1,9 @@
 <template>
   <li class="card">
-    <router-link class="card-description" to="/">
-      <img class="card-image" src="../static/1.png" alt="Perävaunun pressu 470/218">
-      <span class="card-title">Perävaunun pressu 470/218</span>
-      <span class="card-price">160,00€ <span class="price-suffix">Hinta sis. ALV</span></span>
+    <router-link class="card-description" :to="href">
+      <img class="card-image" :src="image" :alt="title">
+      <span class="card-title">{{title}}</span>
+      <span class="card-price">{{price}}{{currency}} <span class="price-suffix">Hinta sis. ALV</span></span>
     </router-link>
     <div class="card-add">
       <button class="btn btn-sm">
@@ -15,6 +15,7 @@
 
 <script>
 export default {
+  props: ["image", "title", "price", "currency", "href"]
 
 }
 </script>
@@ -37,6 +38,7 @@ export default {
   width: 230px;
   height: 230px;
   margin-bottom: 10px;
+  border-radius: 5px;
 }
 .card-title {
   color: #0000c6;
