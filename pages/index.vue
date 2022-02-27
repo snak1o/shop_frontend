@@ -12,6 +12,7 @@
   </div>
 </template>
 
+
 <script>
 export default {
 
@@ -29,6 +30,7 @@ export default {
     font-size: 2em;
     font-weight: 300;
     margin-top: 40px;
+    margin-bottom: 10px;
   }
   .products-list {
     width: 100%;
