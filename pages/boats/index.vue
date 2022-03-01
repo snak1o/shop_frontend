@@ -19,17 +19,17 @@ export default {
   data(){
     return {
       boats: [
-        {name: "Buster", url: "/1.png", link: "/boats/buster"},
-        {name: "Alutroll", url: "/2.png", link: "/boats/alutroll"},
-        {name: "Linder", url: "/3.png", link: "/boats/linder"},
-        {name: "Silver", url: "/4.png", link: "/boats/silver"},
-        {name: "Suvi", url: "/5.png", link: "/boats/suvi"},
-        {name: "Terhi", url: "/6.png", link: "/boats/terhi"},
-        {name: "Rönnqvist", url: "/7.png", link: "/boats/ronnqvist"},
-        {name: "Faster", url: "/8.png", link: "/boats/faster"},
-        {name: "Yamarin", url: "/9.png", link: "/boats/yamarin"},
-        {name: "Boston", url: "/10.png", link: "/boats/boston"},
-        {name: "Yki", url: "/11.png", link: "/boats/yki"},
+        {name: "Buster", url: "/1.png", link: "/boats/buster", id: "GF4444"},
+        {name: "Alutroll", url: "/2.png", link: "/boats/alutroll", id: "GF4444"},
+        {name: "Linder", url: "/3.png", link: "/boats/linder", id: "GF4444"},
+        {name: "Silver", url: "/4.png", link: "/boats/silver", id: "GF4444"},
+        {name: "Suvi", url: "/5.png", link: "/boats/suvi", id: "GF4444"},
+        {name: "Terhi", url: "/6.png", link: "/boats/terhi", id: "GF4444"},
+        {name: "Rönnqvist", url: "/7.png", link: "/boats/ronnqvist", id: "GF4444"},
+        {name: "Faster", url: "/8.png", link: "/boats/faster", id: "GF4444"},
+        {name: "Yamarin", url: "/9.png", link: "/boats/yamarin", id: "GF4444"},
+        {name: "Boston", url: "/10.png", link: "/boats/boston", id: "GF4444"},
+        {name: "Yki", url: "/11.png", link: "/boats/yki", id: "GF4444"},
       ]
     }
   }

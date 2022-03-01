@@ -4,12 +4,8 @@
     <ul class="products-list">
       <ProductCard
         v-for="product in products"
-        :key="product.title"
-        :title="product.title"
-        :image="product.image"
-        :price="product.price"
-        :currency="product.currency"
-        :href="product.href"
+        :key="product.title + (Math.random() * 10000)"
+        :product="product"
       />
     </ul>
   </div>
@@ -20,18 +16,14 @@ export default {
   data() {
     return {
       products: [
-        {title: "Grillin kansi", image: "/test.jpg", price: "160.00", currency: "€", href: "/boats/buster/1"},
-        {title: "Grillin kansi /-peite 600", image: "/test.jpg", price: "132.00", currency: "€", href: "/boats/buster/1"},
-        {title: "Grillin kansi /PVC-peite 600", image: "/test.jpg", price: "1603.00", currency: "kr", href: "/boats/buster/1"},
-        {title: "Kansi /PVC-peite 600", image: "/test.jpg", price: "16011.00", currency: "kr", href: "/boats/buster/1"},
-        {title: "Grillin kansi", image: "/test.jpg", price: "160.00", currency: "€", href: "/boats/buster/1"},
-        {title: "Grillin kansi /-peite 600", image: "/test.jpg", price: "132.00", currency: "€", href: "/boats/buster/1"},
-        {title: "Grillin kansi /PVC-peite 600", image: "/test.jpg", price: "1603.00", currency: "kr", href: "/boats/buster"},
-        {title: "Kansi /PVC-peite 600", image: "/test.jpg", price: "16011.00", currency: "kr", href: "/boats/buster"},
-        {title: "Grillin kansi", image: "/test.jpg", price: "160.00", currency: "€", href: "/boats/buster"},
-        {title: "Grillin kansi /-peite 600", image: "/test.jpg", price: "132.00", currency: "€", href: "/boats/buster"},
-        {title: "Grillin kansi /PVC-peite 600", image: "/test.jpg", price: "1603.00", currency: "kr", href: "/boats/buster"},
-        {title: "Kansi /PVC-peite 600", image: "/test.jpg", price: "16011.00", currency: "kr", href: "/boats/buster"},
+        {title: "Grillin kansi", image: "/test.jpg", price: {blue: 160.90, red: 100.00, yellow: 432.00}, href: "/boats/buster/1", id: "hfghgf32", quantity: 1},
+        {title: "Grillin kansi", image: "/test.jpg", price: {blue: 160.90, red: 100.00, yellow: 432.00}, href: "/boats/buster/1", id: "hgfhgfhz33", quantity: 1},
+        {title: "Grillin kansi", image: "/test.jpg", price: {blue: 160.90, red: 100.00, yellow: 432.00}, href: "/boats/buster/1", id: "ffdgfdgfgf34", quantity: 1},
+        {title: "Grillin kansi", image: "/test.jpg", price: {blue: 160.90, red: 100.00, yellow: 432.00}, href: "/boats/buster/1", id: "ggfdgas45", quantity: 1},
+        {title: "Grillin kansi", image: "/test.jpg", price: {blue: 160.90, red: 100.00, yellow: 432.00}, href: "/boats/buster/1", id: "hfghgf56", quantity: 1},
+        {title: "Grillin kansi", image: "/test.jpg", price: {blue: 160.90, red: 100.00, yellow: 432.00}, href: "/boats/buster/1", id: "hgfhgfhz765", quantity: 1},
+        {title: "Grillin kansi", image: "/test.jpg", price: {blue: 160.90, red: 100.00, yellow: 432.00}, href: "/boats/buster/1", id: "ffdgfdgfgf432", quantity: 1},
+        {title: "Grillin kansi", image: "/test.jpg", price: {blue: 160.90, red: 100.00, yellow: 432.00}, href: "/boats/buster/1", id: "ggfdgas222", quantity: 1},
       ]
     }
   }

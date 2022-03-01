@@ -2,24 +2,28 @@
   <div class="container product">
     <div class="product-container">
       <div class="product-images">
-        <img class="image-active" src="/static/test.jpg" alt="test">
+        <img class="image-active" src="/test.jpg" alt="test">
         <div class="image-zoom-container">
           <img src="../../../assets/images/zoom.svg" alt="zoom">
         </div>
       </div>
       <div class="product-description">
-        <h1 class="product-title">Grillin kansi /PVC-peite 600</h1>
-        <span class="product-price">110,00€ <span class="price-suffix">Hinta sis. ALV</span></span>
+        <h1 class="product-title">{{item.title}}</h1>
+        <span class="product-price">{{parseFloat(item.price[color]).toFixed(2)}}€ <span class="price-suffix">Hinta sis. ALV</span></span>
         <p class="product-short-desc">Grillin kansi pituudeksi enintään 2,5 m / leveys enintään 0,7 m / korkeus enintään 0,7 m
           Ilmoita tilauksen yhteydessä väri ja tarkka koko kommenttikenttään.
           Toimitusaika 5-7 työpäivää
           Toimituskulut 9,90 €</p>
+        <div class="products-colors">
+          <span class="products-colors-title">Color:</span>
+            <input type="radio" name="color" :checked="color === value" :style="{backgroundColor: value}" :value="value" v-for="(price, value) in item.price" @input="event => color = event.target.value">
+        </div>
         <div class="product-quantity">
-          <input class="quantity" type="number" value="1" min="1" max="1000">
-          <button class="btn btn-sm">Add to cart</button>
+          <input class="quantity" type="number" v-model="item.quantity" min="1">
+          <button class="btn btn-sm" @click="addToCart(item)">Add to cart</button>
         </div>
         <div class="product-tech-info">
-          <span class="product-tech">Product id: 32243</span>
+          <span class="product-tech">Product id: {{item.id}}</span>
           <span class="product-tech">Category: <router-link class="product-link" to="/boats/buster">Buster</router-link></span>
           <span class="product-tech">Tags: <router-link class="product-link" to="/">Test</router-link><router-link class="product-link" to="/">Test</router-link></span>
         </div>
@@ -29,12 +33,8 @@
     <ul class="products-list">
       <ProductCard
         v-for="product in products"
-        :key="product.title"
-        :title="product.title"
-        :image="product.image"
-        :price="product.price"
-        :currency="product.currency"
-        :href="product.href"
+        :key="product.title + (Math.random() *10000)"
+        :product="product"
       />
     </ul>
   </div>
@@ -42,20 +42,55 @@
 
 <script>
 export default {
+  mounted() {
+    return this.color = Object.keys(this.item.price)[0]
+  },
   data() {
     return {
+      item: {title: "Grillin kansi", image: "/test.jpg", price: {blue: 160.90, red: 100.00, yellow: 432.00}, href: "/boats/buster/1", id: "fff", quantity: 1},
+      color: "",
       products: [
-        {title: "Grillin kansi", image: "/test.jpg", price: "160.00", currency: "€", href: "/boats/buster"},
-        {title: "Grillin kansi /-peite 600", image: "/test.jpg", price: "132.00", currency: "€", href: "/boats/buster"},
-        {title: "Grillin kansi /PVC-peite 600", image: "/test.jpg", price: "1603.00", currency: "kr", href: "/boats/buster"},
-        {title: "Kansi /PVC-peite 600", image: "/test.jpg", price: "16011.00", currency: "kr", href: "/boats/buster"},
+        {title: "Grillin kansi", image: "/test.jpg", price: {blue: 160.90, red: 100.00, yellow: 432.00}, href: "/boats/buster/1", id: "hfghgf", quantity: 1},
+        {title: "Grillin kansi", image: "/test.jpg", price: {blue: 160.90, red: 100.00, yellow: 432.00}, href: "/boats/buster/1", id: "hgfhgfhz", quantity: 1},
+        {title: "Grillin kansi", image: "/test.jpg", price: {blue: 160.90, red: 100.00, yellow: 432.00}, href: "/boats/buster/1", id: "ffdgfdgfgf", quantity: 1},
+        {title: "Grillin kansi", image: "/test.jpg", price: {blue: 160.90, red: 100.00, yellow: 432.00}, href: "/boats/buster/1", id: "ggfdgas", quantity: 1},
       ]
+    }
+  },
+  methods: {
+    addToCart(item) {
+      this.$store.commit('addItemToCart', {...item, color: this.color})
     }
   }
 }
 </script>
 
 <style scoped>
+input[type="radio"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  padding: 1px;
+  background-clip: content-box;
+  outline: 2px solid lightgrey;
+}
+input[type="radio"]:checked {
+  outline: 2px solid black;
+}
+input[type="radio"]:not(:last-child) {
+  margin-right: 10px;
+}
+.products-colors {
+  padding-left: 2px;
+  margin-bottom: 15px;
+}
+.products-colors-title {
+  display: flex;
+  margin-bottom: 5px;
+}
   .product {
     margin-bottom: 20px;
   }
@@ -93,7 +128,6 @@ export default {
     height: 20px;
   }
   .product-title {
-
     margin-bottom: 20px;
   }
   .product-price {
@@ -106,7 +140,7 @@ export default {
   }
   .product-short-desc {
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     overflow-wrap: break-word;
     font-size: 17px;
     line-height: 25px;

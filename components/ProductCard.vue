@@ -1,12 +1,15 @@
 <template>
   <li class="card">
-    <router-link class="card-description" :to="href">
-      <img class="card-image" :src="image" :alt="title">
-      <span class="card-title">{{title}}</span>
-      <span class="card-price">{{price}}{{currency}} <span class="price-suffix">Hinta sis. ALV</span></span>
+    <router-link class="card-description" :to="product.href">
+      <img class="card-image" :src="product.image" :alt="product.title">
+      <span class="card-title">{{product.title}}</span>
+      <span class="card-price">{{parseFloat(product.price[color]).toFixed(2)}}€ <span class="price-suffix">Hinta sis. ALV</span></span>
     </router-link>
+    <div class="products-colors">
+      <input type="radio" :checked="color=== value" :style="{backgroundColor: value}" :value="value" v-for="(price, value) in product.price" @input="event => color = event.target.value">
+    </div>
     <div class="card-add">
-      <button class="btn btn-sm">
+      <button class="btn btn-sm" @click="addToCart(product)">
         Add to cart
       </button>
     </div>
@@ -15,8 +18,22 @@
 
 <script>
 export default {
-  props: ["image", "title", "price", "currency", "href"]
-
+  mounted() {
+    return this.color = Object.keys(this.product.price)[0]
+  },
+  props: ["product"],
+  data() {
+    return {
+      color: '',
+    }
+  },
+  methods: {
+    addToCart(product) {
+      console.log(product)
+      console.log(this.color)
+      this.$store.commit('addQuantity', {...product, color: this.color})
+    }
+  }
 }
 </script>
 
@@ -59,5 +76,30 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+input[type="radio"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  padding: 1px;
+  background-clip: content-box;
+  outline: 2px solid lightgrey;
+}
+input[type="radio"]:checked {
+  outline: 2px solid black;
+}
+input[type="radio"]:not(:last-child) {
+  margin-right: 10px;
+}
+.products-colors {
+  padding-left: 2px;
+  margin-bottom: 15px;
+}
+.products-colors-title {
+  display: flex;
+  margin-bottom: 5px;
 }
 </style>
