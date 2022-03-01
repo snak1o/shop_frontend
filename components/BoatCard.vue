@@ -22,11 +22,12 @@ export default {
   position: relative;
   box-shadow: 0 0 10px lightgrey;
   border-radius: 5px;
+  transition: 1s ease;
+  overflow: hidden;
 }
 .card-container {
   width: 200px;
   height: 200px;
-
   transition: 0.3s ease;
   background-size: contain;
 }
@@ -35,15 +36,15 @@ export default {
 }
 .card-name {
   position: absolute;
-  top: 50%;
+  bottom: -10%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 50%);
   font-size: 1.5rem;
   font-weight: 600;
   color: black;
-  display: none;
+  transition: 0.3s ease;
 }
 .card:hover > .card-name {
-  display: inline;
+  bottom: 50%;
 }
 </style>
