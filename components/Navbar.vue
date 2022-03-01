@@ -9,7 +9,6 @@
           <ul class="nav-list">
             <li class="nav-list-item"><nuxt-link to="/">Home</nuxt-link></li>
             <li class="nav-list-item"><nuxt-link to="/boats">Boats</nuxt-link></li>
-            <li class="nav-list-item"><nuxt-link to="/about">About us</nuxt-link></li>
             <li class="nav-list-item"><nuxt-link to="/contact">Contact us</nuxt-link></li>
             <li class="nav-list-item"><nuxt-link to="/account">Account</nuxt-link></li>
             <li class="nav-list-item"><nuxt-link to="/cart">Cart</nuxt-link></li>
