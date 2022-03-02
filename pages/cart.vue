@@ -25,7 +25,7 @@
         </tbody>
       </table>
     </div>
-    <div class="test" v-else>Your cart is empty</div>
+    <StaticNotification v-else class="info">Your cart is empty</StaticNotification>
   </div>
 </template>
 
