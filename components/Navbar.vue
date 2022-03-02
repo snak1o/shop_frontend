@@ -14,7 +14,7 @@
             <li class="nav-list-item"><nuxt-link to="/cart">Cart</nuxt-link></li>
           </ul>
         </nav>
-        <NavbarCart class="cart"/>
+        <NavbarCart />
       </div>
   </header>
 </template>
@@ -62,10 +62,6 @@ export default {
   }
   .cart, .search {
     justify-content: end;
-  }
-  .cart {
-    display: flex;
-    justify-content: space-between;
   }
   .logo {
     width: 100%;
