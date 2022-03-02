@@ -29,8 +29,6 @@ export default {
   },
   methods: {
     addToCart(product) {
-      console.log(product)
-      console.log(this.color)
       this.$store.commit('addQuantity', {...product, color: this.color})
     }
   }
