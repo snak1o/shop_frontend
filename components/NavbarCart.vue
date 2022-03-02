@@ -1,15 +1,42 @@
 <template>
-  <router-link to="/cart" >
-    <div class="cart-container">
-      <span class="price">{{getSum}}€</span>
-      <span class="quantity">{{getQuantity}} products</span>
+  <div class="cart" @mouseover="showPrev = true" @mouseleave="showPrev = false">
+    <router-link class="cart-container" to="/cart" >
+      <div class="cart-info">
+        <span class="price">{{getSum}}€</span>
+        <span class="quantity">{{getQuantity}} products</span>
+      </div>
+      <span class="cart-icon"></span>
+    </router-link>
+    <div class="cart-prev" v-if="showPrev && $route.path !== '/cart' && getCart.length !== 0">
+      <ul>
+        <li v-for="item in getCart">
+          <div class="cart-item-info">
+            <span class="close" @click="removeItem(item)"></span>
+            <router-link class="cart-prev-link" :to="item.href">
+              <span>{{item.title}}</span>
+            </router-link>
+            <span class="cart-prev-price">{{item.quantity}} x {{(item.price[item.color]).toFixed(2)}}€</span>
+          </div>
+          <span class="image-prev"><img :src="item.image" :alt="item.title"></span>
+        </li>
+      </ul>
+      <div class="cart-prev-sum">
+        <strong>Cart sum: </strong> {{getSum}}€
+      </div>
+      <div class="cart-prev-button">
+        <router-link to="/cart" class="btn btn-sm">Go to cart</router-link>
+      </div>
     </div>
-    <span class="cart-icon"></span>
-  </router-link>
+  </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      showPrev: false
+    }
+  },
   computed: {
     getSum() {
       let priceSum = 0
@@ -26,12 +53,36 @@ export default {
         cartQuantity += parseFloat(this.$store.getters.cart[k].quantity)
       }
       return cartQuantity
+    },
+    getCart() {
+      return this.$store.getters.cart
     }
+  },
+  methods: {
+    removeItem(item) {
+      this.$store.commit('removeItemFromCart', item)
+      this.cart = this.$store.getters.cart
+    },
   }
 }
 </script>
 
 <style scoped>
+  .cart {
+    display: flex;
+    position: relative;
+  }
+  .cart-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+  .cart-info {
+    align-items: end;
+    width: 100%;
+  }
   .cart-icon {
     height: 18px;
     width: 18px;
@@ -39,9 +90,65 @@ export default {
   }
   .price {
     padding-right: 5px;
+    color: white;
   }
   .quantity {
     color: darkgray;
     font-size: 14px;
+  }
+  li {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 10px 10px;
+    margin-bottom: 5px;
+  }
+  .cart-prev {
+    top: 68px;
+    position: absolute;
+    background: rgb(161, 204, 149);
+    width: 100%;
+    z-index: 100;
+  }
+  .image-prev img {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+  }
+  .cart-item-info {
+    padding-left: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .close {
+    position: absolute;
+    background: url("./assets/images/times.svg") no-repeat center;
+    background-size: contain;
+    height: 16px;
+    width: 16px;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  .cart-prev-link {
+    color: black;
+    text-decoration: underline;
+  }
+  .cart-prev-price {
+    font-size: 14px;
+  }
+  .cart-prev-sum {
+    text-align: center;
+    padding: 15px 0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  .cart-prev-button {
+    display: flex;
+    justify-content: center;
+    padding: 15px 0;
   }
 </style>
