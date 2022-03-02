@@ -9,7 +9,7 @@
     </router-link>
     <div class="cart-prev" v-if="showPrev && $route.path !== '/cart' && getCart.length !== 0">
       <ul>
-        <li v-for="item in getCart">
+        <li v-for="(item, index) in getCart" v-if="index <= 4">
           <div class="cart-item-info">
             <span class="close" @click="removeItem(item)"></span>
             <router-link class="cart-prev-link" :to="item.href">
@@ -20,6 +20,7 @@
           <span class="image-prev"><img :src="item.image" :alt="item.title"></span>
         </li>
       </ul>
+      <div v-if="getCart.length >= 6" class="cart-prev-more">+ {{getCart.length - 5}} more</div>
       <div class="cart-prev-sum">
         <strong>Cart sum: </strong> {{getSum}}€
       </div>
@@ -141,6 +142,13 @@ export default {
     font-size: 14px;
   }
   .cart-prev-sum {
+    text-align: center;
+    padding: 15px 0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  .cart-prev-more {
+    font-weight: 600;
     text-align: center;
     padding: 15px 0;
     font-size: 0.9rem;
