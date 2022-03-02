@@ -31,7 +31,6 @@ export default {
   .nav { grid-area: nav; }
   .cart { grid-area: cart; }
   .header {
-    height: 250px;
     border-bottom: 1px solid lightgrey;
     background: url("../assets/images/header.jpg") center no-repeat;
     background-size: cover;
