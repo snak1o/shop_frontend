@@ -14,7 +14,7 @@
           <input :type="hidePassword ? 'password' : 'text'" id="password">
         </div>
         <button class="btn btn-sm mb">Login</button>
-        <router-link to="/account/forget">Forgot your password?</router-link>
+        <router-link to="/account/forgot">Forgot your password?</router-link>
       </div>
       <div class="login-form">
         <h2>Register</h2>
@@ -72,7 +72,6 @@ export default {
   }
   input {
     background-color: rgb(242, 242, 242);
-
     font-size: 16px;
     padding: 10px;
     border: none;
