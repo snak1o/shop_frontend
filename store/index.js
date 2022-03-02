@@ -37,7 +37,6 @@ export const mutations = {
       for (let i = 0; i < state.cart.length; i++) {
         if (state.cart[i].color === item.color && state.cart[i].id === item.id) {
           let cartTest = parseFloat(state.cart[i].quantity)
-          console.log(typeof cartTest)
           cartTest += parseInt(item.quantity)
           state.cart[i].quantity = cartTest
           localStorage.setItem("cart", JSON.stringify(state.cart))
