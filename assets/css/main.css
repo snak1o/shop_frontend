@@ -24,8 +24,8 @@ ul{
   cursor: pointer;
 }
 .btn-sm {
-  width: 140px;
-  height: 40px;
+  padding: 10px;
+  width: 170px;
   display: flex;
   justify-content: center;
   align-items: center;
