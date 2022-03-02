@@ -2,6 +2,7 @@
   <div class="app">
     <Navbar/>
     <Nuxt />
+    <Footer />
   </div>
 </template>
 
@@ -17,5 +18,10 @@ export default {
 }
 </script>
  <style>
+ .app {
+   display: grid;
+   min-height: 100vh;
+   grid-template-rows: 250px auto 200px;
+ }
  </style>
 

@@ -1,10 +1,15 @@
 <template>
   <div class="container product">
     <div class="product-container">
-      <div class="product-images">
-        <img class="image-active" src="/test.jpg" alt="test">
-        <div class="image-zoom-container">
-          <img src="../../../assets/images/zoom.svg" alt="zoom">
+      <div class="product-images-container">
+        <div class="product-images">
+          <img class="image-active" src="/test.jpg" alt="test">
+          <div class="image-zoom-container">
+            <img src="../../../assets/images/zoom.svg" alt="zoom">
+          </div>
+          <div class="product-images-list">
+            <img v-for="i in 6" src="/test.jpg" alt="test">
+          </div>
         </div>
       </div>
       <div class="product-description">
@@ -180,5 +185,16 @@ input[type="radio"]:not(:last-child) {
   }
   .mr {
     margin-right: 5px;
+  }
+  .product-images-list {
+    margin-top: 20px;
+    display: grid;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    grid-template-columns: calc(20% - 8px) calc(20% - 8px) calc(20% - 8px) calc(20% - 8px) calc(20% - 8px);
+  }
+  .product-images-list img {
+    width: 100%;
+    border-radius: 5px;
   }
 </style>
