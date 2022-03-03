@@ -39,7 +39,6 @@ export default {
 <style scoped>
   .boats-container {
     margin-top: 20px;
-    margin-bottom: 20px;
   }
   .title {
     font-weight: 300;
