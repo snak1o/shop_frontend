@@ -2,7 +2,7 @@
   <div class="container">
     <h1 class="title">Shopping cart</h1>
     <div class="cart-container" v-if="cart.length !== 0">
-      <table class="cart-table">
+      <table class="cart-items">
         <thead>
         <tr>
           <th></th>
@@ -24,13 +24,48 @@
         </tr>
         </tbody>
       </table>
+      <div class="cart-info">
+        <div class="cart-summary">
+          <h2 class="cart-info-title">Cart summary</h2>
+          <table class="cart-info-table">
+            <tbody>
+            <tr>
+              <th>Product(s) price</th>
+              <td>{{getSum}}€</td>
+            </tr>
+            <tr>
+              <th>Shipping</th>
+              <td>
+                <ul>
+                  <li>
+                    <input type="radio" checked name="shipping" id="shipping-price"/>
+                    <label for="shipping-price">Shipping price: 13.90€</label>
+                  </li>
+                  <li>
+                    <input type="radio" name="shipping" id="shipping-pickup"/>
+                    <label for="shipping-price">Pickup</label>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th>Total price</th>
+              <td>{{(parseFloat(getSum) + 13.90).toFixed(2)}}€</td>
+            </tr>
+            </tbody>
+          </table>
+          <button class="btn btn-la">Checkout</button>
+        </div>
+      </div>
     </div>
     <StaticNotification v-else class="info">Your cart is empty</StaticNotification>
   </div>
 </template>
 
 <script>
+import Policy from "@/pages/policy";
 export default {
+  components: {Policy},
   data() {
     return {
       cart: []
@@ -45,6 +80,15 @@ export default {
         this.cart = JSON.parse(localStorage.getItem('cart'))
         return this.cart
       }
+    },
+    getSum() {
+      let priceSum = 0
+      let cart = this.$store.getters.cart
+      for (let k in cart) {
+        priceSum += (parseFloat(cart[k].price[cart[k].color]) * parseFloat(cart[k].quantity))
+      }
+      this.$store.commit('setCartPrice')
+      return priceSum.toFixed(2)
     },
   },
   methods: {
@@ -76,29 +120,32 @@ export default {
     margin-bottom: 20px;
     text-align: center;
   }
-  .cart-table {
+  .cart-items {
     border-collapse: collapse;
     width: 100%;
     padding: 8px;
   }
-  th {
+  .cart-items th {
     padding-top: 25px;
     padding-bottom: 25px;
     background-color: #f8f8f8;
     text-align: center;
     color: black;
   }
-  tr {
+  .cart-items tr {
     position: relative;
+    background-color: #f2f2f2;
+    margin-bottom: 5px;
   }
-  td {
+  .cart-items td {
     padding: 8px;
     text-align: center;
+
   }
-  tr:nth-child(even){
-    background-color: #f2f2f2;
+  .cart-items tr:nth-child(even){
+    background-color: #f8f8f8;
   }
-  tr:hover {
+  .cart-items tr:hover {
     background-color: #ddd;
   }
   img {
@@ -155,5 +202,33 @@ export default {
     outline: 2px solid lightgrey;
     outline-offset: 1px;
   }
-
+  .cart-summary {
+    grid-area: summary;
+  }
+  .cart-info  {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-areas: 'none summary';
+  }
+  .cart-info-title {
+    text-align: left;
+    font-size: 1.7rem;
+  }
+  .cart-info-table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+  }
+  .cart-info-table th {
+    width: 40%;
+    background-color: #f8f8f8;
+    padding: 15px;
+  }
+  .cart-info-table th, .cart-info-table td {
+    padding-left: 10px;
+    text-align: left;
+  }
+  .cart-info-table td {
+    background-color: #fdfdfd;
+  }
 </style>
