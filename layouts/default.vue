@@ -17,11 +17,9 @@ export default {
   }
 }
 </script>
- <style>
- .app {
-   display: grid;
-   min-height: 100vh;
-   grid-template-rows: 250px auto 200px;
- }
- </style>
-
+<style>
+.app {
+  display: grid;
+  min-height: 100vh;
+}
+</style>
