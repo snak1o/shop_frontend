@@ -21,7 +21,7 @@
           Toimituskulut 9,90 €</p>
         <div class="products-colors">
           <span class="products-colors-title">Color:</span>
-            <input type="radio" name="color" :checked="color === value" :style="{backgroundColor: value}" :value="value" v-for="(price, value) in item.price" @input="event => color = event.target.value">
+          <input type="radio" name="color" :checked="color === value" :style="{backgroundColor: value}" :value="value" v-for="(price, value) in item.price" @input="event => color = event.target.value">
         </div>
         <div class="product-quantity">
           <input class="quantity" type="number" v-model="item.quantity" min="1">
@@ -81,6 +81,7 @@ input[type="radio"] {
   padding: 1px;
   background-clip: content-box;
   outline: 2px solid lightgrey;
+  cursor: pointer;
 }
 input[type="radio"]:checked {
   outline: 2px solid black;
@@ -182,9 +183,6 @@ input[type="radio"]:not(:last-child) {
   .product-link:not(:last-of-type):after{
     content: ",";
     margin-right: 4px;
-  }
-  .mr {
-    margin-right: 5px;
   }
   .product-images-list {
     margin-top: 20px;
