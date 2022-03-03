@@ -10,8 +10,8 @@
         </div>
         <div class="login-form-container">
           <label class="login-form-label" for="password">Password</label>
-          <span class="show-password" @click.prevent="hidePassword = !hidePassword" :style="hidePassword ? {background: 'url(/eye.svg) no-repeat center'} : {background: 'url(/eye-disabled.svg) no-repeat center'}"></span>
-          <input :type="hidePassword ? 'password' : 'text'" id="password">
+          <span class="show-password" @click.prevent="hidePasswordLogin = !hidePasswordLogin" :style="hidePasswordLogin ? {background: 'url(/eye.svg) no-repeat center'} : {background: 'url(/eye-disabled.svg) no-repeat center'}"></span>
+          <input :type="hidePasswordLogin ? 'password' : 'text'" id="password">
         </div>
         <button class="btn btn-sm mb">Login</button>
         <router-link to="/account/forgot">Forgot your password?</router-link>
@@ -19,10 +19,21 @@
       <div class="login-form">
         <h2>Register</h2>
         <div class="login-form-container">
-          <label class="login-form-label" for="email">Email address</label>
-          <input type="text" id="email">
+          <div class="login-form-items">
+            <label class="login-form-label" for="register-email">Email address</label>
+            <input type="text" id="register-email">
+          </div>
+          <div class="login-form-items">
+            <span class="show-password" @click.prevent="hidePasswordResister = !hidePasswordResister" :style="hidePasswordResister ? {background: 'url(/eye.svg) no-repeat center'} : {background: 'url(/eye-disabled.svg) no-repeat center'}"></span>
+            <label class="login-form-label" for="register-password">Password</label>
+            <input :type="hidePasswordResister ? 'password' : 'text'" id="register-password">
+          </div>
+          <div class="login-form-items">
+            <span class="show-password" @click.prevent="hidePasswordResister = !hidePasswordResister" :style="hidePasswordResister ? {background: 'url(/eye.svg) no-repeat center'} : {background: 'url(/eye-disabled.svg) no-repeat center'}"></span>
+            <label class="login-form-label" for="register-password-retype">Retype password</label>
+            <input :type="hidePasswordResister ? 'password' : 'text'" id="register-password-retype">
+          </div>
         </div>
-        <p class="register-password-info">A link to set a new password will be sent to your email address.</p>
         <p class="register-password-policy">Your personal information will be used to enhance your experience on the Website, to manage your use of your account and for other purposes described on our <router-link to="/policy">Privacy Policy</router-link>.</p>
         <button class="btn btn-sm">Register</button>
       </div>
@@ -36,7 +47,8 @@ export default {
   components: {Policy},
   data() {
     return {
-      hidePassword: true
+      hidePasswordLogin: true,
+      hidePasswordResister: true,
     }
   },
 }
@@ -79,9 +91,6 @@ export default {
     box-shadow: rgba(0, 0, 0, 0.125) 0px 1px 1px 0px inset;
     margin-bottom: 20px;
   }
-  .register-password-info {
-    margin-bottom: 30px;
-  }
   a {
     font-weight: 600;
     text-decoration: underline;
@@ -101,5 +110,10 @@ export default {
     right: 10px;
     transform: translateY(-48%);
     cursor: pointer;
+  }
+  .login-form-items {
+    position: relative;
+    display: flex;
+    flex-direction: column;
   }
 </style>
