@@ -9,9 +9,7 @@
       <input type="radio" :checked="color=== value" :style="{backgroundColor: value}" :value="value" v-for="(price, value) in product.price" @input="event => color = event.target.value">
     </div>
     <div class="card-add">
-      <button class="btn btn-sm" @click="addToCart(product)">
-        Add to cart
-      </button>
+      <button class="btn btn-sm" @click="addToCart(product)">Add to cart</button>
     </div>
   </li>
 </template>
@@ -85,6 +83,7 @@ input[type="radio"] {
   padding: 1px;
   background-clip: content-box;
   outline: 2px solid lightgrey;
+  cursor: pointer;
 }
 input[type="radio"]:checked {
   outline: 2px solid black;
