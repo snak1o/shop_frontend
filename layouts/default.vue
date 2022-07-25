@@ -18,8 +18,5 @@ export default {
 }
 </script>
 <style>
-.app {
-  display: grid;
-  min-height: 100vh;
-}
+
 </style>

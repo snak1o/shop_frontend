@@ -1,35 +1,117 @@
 <template>
-  <div class="container boats-container">
-    <h1 class="title">Boat marks</h1>
-    <div class="boats-list">
-      <router-link :to="boat.link" v-for="boat in boats" :key="boat.name">
-        <BoatCard :name="boat.name" :url="boat.url" />
-      </router-link>
+  <div class="container mx-auto p-5">
+    <h1 class="text-center text-2xl text-gray-900">
+      New products
+    </h1>
+    <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+      <ProductCard
+        class="group relative"
+        v-for="product in products"
+        :key="product.name"
+        :product="product"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import BoatCard from "@/components/BoatCard";
-
 export default {
-  components: {
-    BoatCard,
-  },
-  data(){
+
+  data() {
     return {
-      boats: [
-        {name: "Buster", url: "/1.png", link: "/boats/buster", id: "GF4444"},
-        {name: "Alutroll", url: "/2.png", link: "/boats/alutroll", id: "GF4444"},
-        {name: "Linder", url: "/3.png", link: "/boats/linder", id: "GF4444"},
-        {name: "Silver", url: "/4.png", link: "/boats/silver", id: "GF4444"},
-        {name: "Suvi", url: "/5.png", link: "/boats/suvi", id: "GF4444"},
-        {name: "Terhi", url: "/6.png", link: "/boats/terhi", id: "GF4444"},
-        {name: "Rönnqvist", url: "/7.png", link: "/boats/ronnqvist", id: "GF4444"},
-        {name: "Faster", url: "/8.png", link: "/boats/faster", id: "GF4444"},
-        {name: "Yamarin", url: "/9.png", link: "/boats/yamarin", id: "GF4444"},
-        {name: "Boston", url: "/10.png", link: "/boats/boston", id: "GF4444"},
-        {name: "Yki", url: "/11.png", link: "/boats/yki", id: "GF4444"},
+      products: [
+        {
+          "id": 1,
+          "name": "Buster S 2022 boat cover",
+          "description": "описание для новой лодочки",
+          "categoryId": 1,
+          "tags": [
+            {
+              "name": "tag1"
+            },
+            {
+              "name": "tag2"
+            }
+          ],
+          "photos": ["https://i.yapx.cc/S9FfL.png",
+            "https://sun9-87.userapi.com/impg/njbUTyspmS4uw6tYZ2_8apIq4q5UpRe1orW5tQ/grVbY0xoK8E.jpg?size=640x640&quality=95&sign=8742a78348a45f2117e938c8261924fd&type=album",],
+          "colors": [
+            {
+              "name": "Dark Gray",
+              "hex": "#4a4848",
+              "id": 1
+            },
+            {
+              "name": "Red",
+              "hex": "#ff0000",
+              "id": 3
+            }
+          ],
+          "price": 32.26,
+          "pricealv": 250,
+          "sku": "F23"
+        },
+        {
+          "id": 1,
+          "name": "Buster XS Pro boat cover",
+          "description": "описание для новой лодочки",
+          "categoryId": 1,
+          "tags": [
+            {
+              "name": "tag1"
+            },
+            {
+              "name": "tag2"
+            }
+          ],
+          "photos": ["https://i.yapx.ru/S9F2Y.png",
+            "https://sun9-87.userapi.com/impg/njbUTyspmS4uw6tYZ2_8apIq4q5UpRe1orW5tQ/grVbY0xoK8E.jpg?size=640x640&quality=95&sign=8742a78348a45f2117e938c8261924fd&type=album",],
+          "colors": [
+            {
+              "name": "Dark Gray",
+              "hex": "#4a4848",
+              "id": 1
+            },
+            {
+              "name": "Red",
+              "hex": "#ff0000",
+              "id": 3
+            }
+          ],
+          "price": 32.26,
+          "pricealv": 320,
+          "sku": "F23"
+        },
+        {"id": 1,
+          "name": "новая лодочка",
+          "description": "описание для новой лодочки",
+          "categoryId": 1,
+          "tags": [
+            {
+              "name": "tag1"
+            },
+            {
+              "name": "tag2"
+            }
+          ],
+          "photos": ["https://i.yapx.ru/S9F4N.png",
+            "https://sun9-87.userapi.com/impg/njbUTyspmS4uw6tYZ2_8apIq4q5UpRe1orW5tQ/grVbY0xoK8E.jpg?size=640x640&quality=95&sign=8742a78348a45f2117e938c8261924fd&type=album",],
+          "colors": [
+            {
+              "name": "Dark Gray",
+              "hex": "#4a4848",
+              "id": 1
+            },
+            {
+              "name": "Red",
+              "hex": "#ff0000",
+              "id": 3
+            }
+          ],
+          "price": 32.26,
+          "pricealv": 40,
+          "sku": "F23"
+        },
       ]
     }
   }
@@ -37,21 +119,9 @@ export default {
 </script>
 
 <style scoped>
-  .boats-container {
-    margin-top: 20px;
-  }
   .title {
-    font-weight: 300;
-    color: #0000c6;
+    margin-top: 20px;
+    margin-bottom: 30px;
     text-align: center;
-
-    margin-bottom: 20px;
-  }
-  .boats-list {
-    display: grid;
-    grid-template-columns: auto auto auto auto auto;
-    justify-content: space-between;
-    grid-row-gap: 20px;
-    grid-column-gap: 10px;
   }
 </style>

@@ -31,24 +31,10 @@ export const mutations = {
     localStorage.setItem("cart", JSON.stringify(state.cart))
   },
 
-
   addItemToCart(state, item) {
-    if (state.cart.length !== 0) {
-      for (let i = 0; i < state.cart.length; i++) {
-        if (state.cart[i].color === item.color && state.cart[i].id === item.id) {
-          let cartTest = parseFloat(state.cart[i].quantity)
-          cartTest += parseInt(item.quantity)
-          state.cart[i].quantity = cartTest
-          localStorage.setItem("cart", JSON.stringify(state.cart))
-          return
-        }
-      }
-      state.cart.push(item)
-      localStorage.setItem("cart", JSON.stringify(state.cart))
-    }else {
-      state.cart.push(item)
-      localStorage.setItem("cart", JSON.stringify(state.cart))
-    }
+    console.log(item)
+    state.cart.push(item)
+    localStorage.setItem("cart", JSON.stringify(state.cart))
   },
 
 
