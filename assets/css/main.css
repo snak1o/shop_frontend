@@ -16,7 +16,7 @@
 .app {
   flex-grow: inherit;
   grid-template-rows: auto 1fr auto !important;
-  @apply grid grid-rows-3 h-screen
+  @apply grid grid-rows-3 h-screen relative
 }
 
 
