@@ -76,9 +76,7 @@
 </template>
 
 <script>
-import Policy from "@/pages/policy";
 export default {
-  components: {Policy},
   data() {
     return {
       cart: []
