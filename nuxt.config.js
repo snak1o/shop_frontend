@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'shop',
+    title: 'Boat Cover',
     htmlAttrs: {
       lang: 'en'
     },
@@ -27,12 +27,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
   ],
-  axios: {
-    proxy: true
-  },
-  proxy: {
-    "/api": "http://127.0.0.1:3001"
-  },
+  axios: {},
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
