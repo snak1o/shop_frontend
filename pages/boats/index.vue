@@ -1,7 +1,7 @@
 <template>
-  <div class="container mx-auto p-5">
-    <h1 class="text-center text-2xl text-gray-900">
-      New products
+  <section class="container mx-auto p-5">
+    <h1 class="text-3xl text-gray-900">
+      Boats
     </h1>
     <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
       <ProductCard
@@ -11,12 +11,13 @@
         :product="product"
       />
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
 export default {
-
+  mounted() {
+  },
   data() {
     return {
       products: [
@@ -112,16 +113,12 @@ export default {
           "pricealv": 40,
           "sku": "F23"
         },
-      ]
+      ],
+      loading: false,
     }
   }
 }
 </script>
 
 <style scoped>
-  .title {
-    margin-top: 20px;
-    margin-bottom: 30px;
-    text-align: center;
-  }
 </style>
