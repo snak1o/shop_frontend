@@ -20,6 +20,10 @@
 }
 
 
-.nuxt-link-exact-active {
+.active {
   @apply text-gray-900
+}
+
+.sidebar-active {
+  @apply bg-gray-200
 }
