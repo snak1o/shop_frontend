@@ -8,11 +8,11 @@
       <div class="hidden items-center justify-between w-full md:flex">
         <nav class="ml-10">
           <ul class="flex space-x-10">
-            <li class="text-base font-medium text-gray-500 hover:text-gray-900"><nuxt-link to="/">Home</nuxt-link></li>
-            <li class="text-base font-medium text-gray-500 hover:text-gray-900"><nuxt-link to="/boats">Boats</nuxt-link></li>
-            <li class="text-base font-medium text-gray-500 hover:text-gray-900"><nuxt-link to="/contact">Contact us</nuxt-link></li>
-            <li class="text-base font-medium text-gray-500 hover:text-gray-900"><nuxt-link to="/account">Account</nuxt-link></li>
-            <li class="text-base font-medium text-gray-500 hover:text-gray-900"><nuxt-link to="/cart">Cart</nuxt-link></li>
+            <li class="text-base font-medium text-gray-500 hover:text-gray-900"><nuxt-link to="/" exact-active-class="active">Home</nuxt-link></li>
+            <li class="text-base font-medium text-gray-500 hover:text-gray-900"><nuxt-link to="/boats" active-class="active">Boats</nuxt-link></li>
+            <li class="text-base font-medium text-gray-500 hover:text-gray-900"><nuxt-link to="/contact" active-class="active">Contact us</nuxt-link></li>
+            <li class="text-base font-medium text-gray-500 hover:text-gray-900"><nuxt-link to="/account" active-class="active">Account</nuxt-link></li>
+            <li class="text-base font-medium text-gray-500 hover:text-gray-900"><nuxt-link to="/faq" active-class="active">FAQ</nuxt-link></li>
           </ul>
         </nav>
         <NavbarCart />
