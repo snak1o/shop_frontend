@@ -12,10 +12,10 @@
         </div>
         <div class="flex flex-col space-y-1">
           <label for="password" class="text-gray-600">Password</label>
-          <input type="password" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4 outline-none" v-model="login" id="password" />
+          <input type="password" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4 outline-none" v-model="password" id="password" />
         </div>
         <div class="flex justify-center">
-          <button class="md:w-1/3 w-2/3 rounded-md bg-indigo-500 hover:bg-indigo-600 p-3 text-white mt-2">Log in</button>
+          <button class="md:w-1/3 w-2/3 rounded-md bg-indigo-500 hover:bg-indigo-600 p-3 text-white mt-2" @click="signIn(login, password)">Log in</button>
         </div>
       </div>
 
@@ -28,8 +28,8 @@
       <div class="flex flex-col w-full lg:w-6/12 justify-center space-y-3">
         <h2 class="text-xl text-center">Registration</h2>
         <div class="flex flex-col space-y-1">
-          <label for="rLogin" class="text-gray-600">Email</label>
-          <input type="text" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4 outline-none" v-model="rLogin" id="rEmail" />
+          <label for="rEmail" class="text-gray-600">Email</label>
+          <input type="text" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4 outline-none" v-model="rEmail" id="rEmail" />
         </div>
         <div class="flex flex-col space-y-1">
           <label for="rLogin" class="text-gray-600">Login</label>
@@ -44,7 +44,7 @@
           <input type="password" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4 outline-none" v-model="rPasswordRetype" id="rPasswordRetype" />
         </div>
         <div class="flex justify-center">
-          <button class="md:w-1/3 w-2/3 rounded-md bg-indigo-500 hover:bg-indigo-600 p-3 text-white mt-2">Create account</button>
+          <button class="md:w-1/3 w-2/3 rounded-md bg-indigo-500 hover:bg-indigo-600 p-3 text-white mt-2" @click="signUp">Create account</button>
         </div>
       </div>
     </div>
@@ -53,7 +53,8 @@
 
 <script>
 export default {
-  name: "login",
+  name: "Auth",
+  middleware: 'auth',
   data() {
     return {
       login: "",
@@ -63,7 +64,37 @@ export default {
       rPassword: "",
       rPasswordRetype: "",
     }
-  }
+  },
+  methods: {
+    async signUp() {
+      try {
+        const res = await this.$axios.post('/users/sign-up', {
+          email: this.rEmail,
+          login: this.rLogin,
+          password: this.rPassword
+        })
+        if (res.status === 201) {
+         await this.signIn(this.rLogin, this.rPassword)
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async signIn(login, password) {
+      try {
+        const res = await this.$auth.loginWith('local', {
+          data: {
+            login: login,
+            password: password
+          }
+        })
+        console.log(res)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+  },
+
 }
 </script>
 
