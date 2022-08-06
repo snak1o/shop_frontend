@@ -2,19 +2,19 @@
   <div class="flex flex-col space-y-4">
     <div class="flex flex-col space-y-1">
       <label for="firstName" class="text-gray-600">First name</label>
-      <input type="text" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4  outline-none" v-model="user.firstName" id="firstName" />
+      <input type="text" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4  outline-none" id="firstName" />
     </div>
     <div class="flex flex-col space-y-1">
       <label for="lastName" class="text-gray-600">Last name</label>
-      <input type="text" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4  outline-none" v-model="user.lastName" id="lastName" />
+      <input type="text" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4  outline-none"  id="lastName" />
     </div>
     <div class="flex flex-col space-y-1">
       <label for="login" class="text-gray-600">Login</label>
-      <input type="text" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4  outline-none" v-model="user.login" id="login" />
+      <input type="text" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4  outline-none" v-model="$auth.user.login" id="login" />
     </div>
     <div class="flex flex-col space-y-1">
      <label for="phone" class="text-gray-600">Phone number</label>
-     <input type="text" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4  outline-none" v-model="user.phone" id="phone" />
+     <input type="text" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4  outline-none" id="phone" />
    </div>
     <div class="flex flex-col space-y-1">
      <label for="address" class="text-gray-600">Address</label>
@@ -35,18 +35,11 @@ export default {
   name: "Information",
   data() {
     return {
-      street: "Vuorenpeikontie 5 a 104",
-      zip: "00820",
-      city: "Helsinki",
-      user: {
-        firstName: "Ruslan",
-        lastName: "Lysenko",
-        login: "snak1o",
-        email: "snakwcs@gmail.com",
-        phone: "+358452614228"
-      },
+      street: "",
+      zip: "",
+      city: "",
     }
-  }
+  },
 }
 </script>
 
