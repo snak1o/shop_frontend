@@ -85,7 +85,7 @@ export default {
     getIndex() {
       let index = 0
       for (let i in this.item.images) {
-        if (this.item.images[i].filename === this.activeImg) {
+        if (this.host + this.item.images[i].filename === this.activeImg) {
           index = i
         }
       }
@@ -102,7 +102,7 @@ export default {
       let i = this.getIndex()
       if (i > 0) {
         i--
-        this.activeImg = this.host+ this.item.images[i].filename
+        this.activeImg = this.host + this.item.images[i].filename
       }
     }
   },
