@@ -34,6 +34,9 @@ export default {
       retypeNewPassword: ""
     }
   },
+  async mounted() {
+    await this.$auth.fetchUser()
+  }
 }
 </script>
 
