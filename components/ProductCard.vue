@@ -1,7 +1,7 @@
 <template>
   <div class="relative" >
     <div class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden hover:opacity-75 lg:h-80 lg:aspect-none cursor-pointer" @click.prevent="$router.push('/boats/' + product.id)">
-      <img :src="product.photos[0]" :alt="product.photos[0]" class="w-full h-full object-center object-cover lg:w-full lg:h-full" />
+      <img :src="host + product.images[0].filename" :alt="product.name" class="w-full h-full object-center object-cover lg:w-full lg:h-full" />
     </div>
     <div class="mt-4 flex justify-between items-end">
       <div>
@@ -13,7 +13,7 @@
         </h3>
       </div>
       <div class="flex flex-col">
-        <p class="text-lg font-medium text-gray-900">{{ product.pricealv.toFixed(2) }}€</p>
+        <p class="text-lg font-medium text-gray-900">{{ product.price }}€</p>
       </div>
     </div>
     <router-link :to="'/boats/' + product.id" class="text-center text-white block mt-4 p-2 rounded bg-indigo-500 hover:bg-indigo-600 font-semibold">More information</router-link>
@@ -23,12 +23,13 @@
 <script>
 export default {
   mounted() {
-    return this.color = Object.keys(this.product.price)[0]
+
   },
+  name: "ProductCard",
   props: ["product"],
   data() {
     return {
-      color: '',
+      host: process.env.HOST_API,
     }
   },
   methods: {
