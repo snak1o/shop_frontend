@@ -52,9 +52,16 @@ export default {
     },
     strategies: {
       local: {
+        scheme: 'refresh',
         token: {
           property: 'accessToken',
-          global: true
+          global: true,
+          maxAge: 60 * 30
+        },
+        refreshToken: {
+          property: 'refreshToken',
+          data: 'refreshToken',
+          maxAge: 60 * 60 * 24 * 30
         },
         user: {
           property: '',
@@ -63,7 +70,7 @@ export default {
           login: { url: '/users/sign-in', method: 'post', },
           refresh: { url: '/users/refresh', method: 'post' },
           user: { url: '/users/me', method: 'get'},
-          logout: true,
+          logout: {url: '/users/logout', method: 'post'},
         },
       }
     }
