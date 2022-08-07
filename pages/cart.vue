@@ -1,17 +1,17 @@
 <template>
   <section class="container mx-auto p-5">
-    <h1 class="text-4xl pb-5 font-bold">Shopping Cart</h1>
-    <div class="flex w-full h-full flex-col lg:flex-row space-y-10 lg:space-y-0 lg:space-x-10" v-if="getCart && getCart.length !== 0">
+    <h1 class="text-3xl pb-5">Shopping Cart</h1>
+    <div class="flex w-full h-full flex-col lg:flex-row space-y-10 lg:space-y-0 lg:space-x-10" v-if="cart && cart.length !== 0">
       <!--      Cart products list        -->
       <div class="w-full flex-col flex h-[40rem] lg:w-4/6 border-t overflow-y-auto">
-        <div class="py-3 border-b flex flex-col items-center md:flex-row md:items-normal" v-for="product in cart" :key="product.id + Math.random(0)">
-          <img class="h-48 w-48 object-contain rounded-md mr-5" :src="product.photos[0]" :alt="product.name">
+        <div class="py-3 border-b flex flex-col items-center md:flex-row md:items-normal" v-for="product in cart" :key="product.id + product.selectedColor.id">
+          <img class="h-48 w-48 object-contain rounded-md mr-5" :src="host + product.images[0].filename" :alt="product.name">
           <div class="flex justify-between w-full flex-col items-center md:flex-row md:items-normal space-y-5 md:space-y-0">
             <div class="flex flex-col justify-between">
               <div class="flex flex-col space-y-1">
                 <span class="font-semibold text-xl">{{product.name}}</span>
-                <span class="text-gray-500">{{product.colors[0].name}}</span>
-                <span class="font-semibold">{{product.pricealv.toFixed(2)}}€</span>
+                <span class="text-gray-500">{{product.selectedColor.name}} <Badge v-if="product.selectedColor.price !== 0" class="ml-1" :class="classPrice(product.selectedColor.price)">{{product.selectedColor.price > 0 ? '+' : ""}}{{product.selectedColor.price}}€</Badge></span>
+                <span class="font-semibold">{{product.price}}€</span>
               </div>
               <span class="text-gray-500 flex items-center text-sm mt-3 md:mt-0">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -20,12 +20,12 @@
                 <span class="pl-1">Est. delivery in 5-7 days</span>
                </span>
             </div>
-            <div class="flex items-center h-10 space-x-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 cursor-pointer" viewBox="0 0 20 20" fill="currentColor">
+            <div class="flex items-center h-10 space-x-3 select-none">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 cursor-pointer" viewBox="0 0 20 20" fill="currentColor" @click="removeOne(product)">
                 <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
               </svg>
-                <span class="py-1 px-3">1</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 cursor-pointer" viewBox="0 0 20 20" fill="currentColor">
+                <span class="py-1 px-3">{{product.quantity}}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 cursor-pointer" viewBox="0 0 20 20" fill="currentColor" @click="addOne(product)">
                 <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
               </svg>
             </div>
@@ -40,20 +40,20 @@
       <!--      Summary        -->
       <div class="w-full lg:w-2/6">
         <div class="bg-gray-50 p-10 rounded-md">
-          <h2 class="text-2xl font-semibold">Order summary</h2>
+          <h2 class="text-2xl font-semibold select-none">Order summary</h2>
           <ul>
-            <li class="flex justify-between border-b py-4"><span class="text-gray-500">Subtotal</span><span class="font-semibold">{{getSum}}€</span></li>
-            <li class="flex justify-between border-b py-4"><span class="text-gray-500">Shipping cost</span><span class="font-semibold">9.90€</span></li>
-            <li class="flex justify-between border-b py-4"><span class="text-gray-500">Tax fee</span><span class="font-semibold">{{(getSum * 0.24).toFixed(2)}}€</span></li>
-            <li class="flex justify-between py-4 text-xl"><span>Order total</span><span>{{(getSum * 1.24 + 9.90).toFixed(2)}}€</span></li>
+            <li class="flex justify-between border-b py-4"><span class="text-gray-500">Subtotal</span><span class="font-semibold">{{(getSum - (getSum * 0.1935)).toFixed(2)}}€</span></li>
+            <li class="flex justify-between border-b py-4"><span class="text-gray-500">Shipping cost</span><span class="font-semibold">{{shipping}}€</span></li>
+            <li class="flex justify-between border-b py-4"><span class="text-gray-500">Tax fee</span><span class="font-semibold">{{(getSum * 0.1935).toFixed(2)}}€</span></li>
+            <li class="flex justify-between py-4 text-xl"><span>Order total</span><span>{{getSum.toFixed(2)}}€</span></li>
           </ul>
-          <button class="py-3 mt-3 w-full bg-indigo-600 text-white font-semibold rounded-md">Checkout</button>
+          <button class="py-3 mt-3 w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-md">Checkout</button>
         </div>
         <div class="flex pt-3 space-x-1 items-center justify-center font-medium">
           <span>
             or
           </span>
-          <router-link class="text-indigo-600 flex" to="/">
+          <router-link class="text-indigo-500 flex" to="/">
             Continue Shopping
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -79,27 +79,20 @@
 export default {
   data() {
     return {
-      cart: []
+      cart: [],
+      shipping: 0,
+      host: process.env.HOST_API,
     }
   },
   mounted() {
-   return this.getCart
+    if (process.browser) {
+      this.cart = JSON.parse(localStorage.getItem('cart'))
+      return this.cart
+    }
   },
   computed: {
-    getCart() {
-      if (process.browser) {
-        this.cart = JSON.parse(localStorage.getItem('cart'))
-        return this.cart
-      }
-    },
     getSum() {
-      let priceSum = 0
-      let cart = this.getCart
-      for (let k in cart) {
-        priceSum += cart[k].price
-      }
-      this.$store.commit('setCartPrice')
-      return priceSum.toFixed(2)
+      return this.$store.getters['cartPrice']
     },
   },
   methods: {
@@ -121,6 +114,14 @@ export default {
       this.$store.commit('removeItemFromCart', item)
       this.cart = this.$store.getters.cart
     },
+    classPrice(price) {
+      if (price > 0) {
+        return 'bg-blue-100 text-blue-800'
+      }
+      else {
+        return 'bg-red-100 text-red-800'
+      }
+    }
   },
 }
 </script>
