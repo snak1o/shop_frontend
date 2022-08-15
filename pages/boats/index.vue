@@ -7,7 +7,7 @@
       <ProductCard
         class="group relative"
         v-for="product in products"
-        :key="product.name"
+        :key="product.id"
         :product="product"
       />
     </div>
