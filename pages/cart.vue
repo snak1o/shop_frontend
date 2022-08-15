@@ -38,30 +38,8 @@
         </div>
       </div>
       <!--      Summary        -->
-      <div class="w-full lg:w-2/6">
-        <div class="bg-gray-50 p-10 rounded-md">
-          <h2 class="text-2xl font-semibold select-none">Order summary</h2>
-          <ul>
-            <li class="flex justify-between border-b py-4"><span class="text-gray-500">Subtotal</span><span class="font-semibold">{{(getSum - (getSum * 0.1935)).toFixed(2)}}€</span></li>
-            <li class="flex justify-between border-b py-4"><span class="text-gray-500">Shipping cost</span><span class="font-semibold">{{shipping}}€</span></li>
-            <li class="flex justify-between border-b py-4"><span class="text-gray-500">Tax fee</span><span class="font-semibold">{{(getSum * 0.1935).toFixed(2)}}€</span></li>
-            <li class="flex justify-between py-4 text-xl"><span>Order total</span><span>{{getSum.toFixed(2)}}€</span></li>
-          </ul>
-          <button class="py-3 mt-3 w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-md">Checkout</button>
-        </div>
-        <div class="flex pt-3 space-x-1 items-center justify-center font-medium">
-          <span>
-            or
-          </span>
-          <router-link class="text-indigo-500 flex" to="/">
-            Continue Shopping
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </router-link>
-        </div>
-      </div>
-    </div>
+      <CartSummary class="w-full lg:w-2/6" :get-sum="getSum"/>
+     </div>
     <div class="flex flex-col space-y-5" v-else>
       <StaticNotification class="info">Your cart is empty</StaticNotification>
       <router-link class="text-indigo-600 font-semibold justify-center flex" to="/">
@@ -85,10 +63,7 @@ export default {
     }
   },
   mounted() {
-    if (process.browser) {
-      this.cart = JSON.parse(localStorage.getItem('cart'))
-      return this.cart
-    }
+    this.cart = this.$store.getters['cart']
   },
   computed: {
     getSum() {
