@@ -67,31 +67,22 @@ export default {
   },
   methods: {
     async signUp() {
-      try {
-        const res = await this.$axios.post('/users/sign-up', {
-          email: this.rEmail,
-          login: this.rLogin,
-          password: this.rPassword
-        })
-        if (res.status === 201) {
-         await this.signIn(this.rLogin, this.rPassword)
-        }
-      } catch (e) {
-        console.log(e)
+      const res = await this.$axios.post('/users/sign-up', {
+        email: this.rEmail,
+        login: this.rLogin,
+        password: this.rPassword
+      })
+      if (res.status === 201) {
+        await this.signIn(this.rLogin, this.rPassword)
       }
     },
     async signIn(login, password) {
-      try {
-        const res = await this.$auth.loginWith('local', {
-          data: {
-            login: login,
-            password: password
-          }
-        })
-        console.log(res)
-      } catch (e) {
-        console.log(e)
-      }
+      await this.$auth.loginWith('local', {
+        data: {
+          login: login,
+          password: password
+        }
+      })
     },
   },
 
