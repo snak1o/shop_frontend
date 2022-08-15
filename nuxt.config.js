@@ -24,10 +24,8 @@ export default {
 
   devServerHandlers: [],
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-  ],
+  plugins: ['@/plugins/auth.js'],
   axios: {
-
   },
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -44,6 +42,7 @@ export default {
     '@nuxtjs/auth-next'
   ],
   auth: {
+    localStorage: false,
     redirect: {
       login: '/auth',
       logout: '/',
@@ -52,26 +51,20 @@ export default {
     },
     strategies: {
       local: {
-        scheme: 'refresh',
         token: {
           property: 'accessToken',
           global: true,
-          maxAge: 60 * 30
-        },
-        refreshToken: {
-          property: 'refreshToken',
-          data: 'refreshToken',
-          maxAge: 60 * 60 * 24 * 30
+          maxAge: 60 * 30,
         },
         user: {
           property: '',
         },
         endpoints: {
-          login: { url: '/users/sign-in', method: 'post', },
-          refresh: { url: '/users/refresh', method: 'post' },
-          user: { url: '/users/me', method: 'get'},
-          logout: {url: '/users/logout', method: 'post'},
+          login: { url: '/users/sign-in', method: 'post', withCredentials: true },
+          user: { url: '/users/me', method: 'get' },
+          logout: {url: '/users/logout', method: 'post', withCredentials: true },
         },
+        tokenRequired: false
       }
     }
   },
