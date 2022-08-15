@@ -1,6 +1,7 @@
 export const state = () => ({
   cart: [],
   cartPrice: 0,
+  shipping: null,
 })
 
 export const actions = {
@@ -12,6 +13,7 @@ export const mutations = {
       if (state.cart[i].selectedColor.id === item.selectedColor.id && state.cart[i].id === item.id) {
         state.cart[i].quantity--
         localStorage.setItem("cart", JSON.stringify(state.cart))
+        state.shipping = null
         return
       }
     }
@@ -29,12 +31,12 @@ export const mutations = {
     state.cart.push(item)
     localStorage.setItem("cart", JSON.stringify(state.cart))
   },
-
   removeItemFromCart(state, item) {
     for (let i = 0; i < Object.keys(state.cart).length; i++) {
       if (state.cart[i].selectedColor.id === item.selectedColor.id && state.cart[i].id === item.id) {
         state.cart.splice(i, 1)
         localStorage.setItem("cart", JSON.stringify(state.cart))
+        state.shipping = null
         return
       }
     }
@@ -46,9 +48,13 @@ export const mutations = {
   updateCart(state, cart) {
     state.cart = cart
   },
+  setShipping(state, shipping) {
+    state.shipping = shipping
+  }
 }
 export const getters = {
   cart: state => state.cart,
   cartPrice: state => state.cartPrice,
+  shipping: state => state.shipping,
 }
 
