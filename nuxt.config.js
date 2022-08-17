@@ -56,15 +56,12 @@ export default {
           global: true,
           maxAge: 60 * 30,
         },
-        user: {
-          property: '',
-        },
         endpoints: {
           login: { url: '/users/sign-in', method: 'post', withCredentials: true },
-          user: { url: '/users/me', method: 'get' },
+          user: false,
           logout: {url: '/users/logout', method: 'post', withCredentials: true },
         },
-        tokenRequired: false
+        tokenRequired: false,
       }
     }
   },
