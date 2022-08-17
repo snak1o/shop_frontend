@@ -72,7 +72,6 @@ export default {
   },
   methods: {
     removeOne(item) {
-      console.log(item.quantity)
       if (item.quantity <= 1) {
         this.removeItem(item)
       }
