@@ -67,23 +67,81 @@ export default {
   },
   methods: {
     async signUp() {
-      const res = await this.$axios.post('/users/sign-up', {
-        email: this.rEmail,
-        login: this.rLogin,
-        password: this.rPassword
-      })
-      if (res.status === 201) {
-        await this.signIn(this.rLogin, this.rPassword)
-      }
+     if (this.registerValidation()) {
+       try {
+         const res = await this.$axios.post('/users/sign-up', {
+           email: this.rEmail,
+           login: this.rLogin,
+           password: this.rPassword
+         })
+         if (res.status === 201) {
+           await this.signIn(this.rLogin, this.rPassword)
+         }
+       }catch (e) {
+         console.log(e)
+       }
+     }
     },
     async signIn(login, password) {
-      await this.$auth.loginWith('local', {
-        data: {
-          login: login,
-          password: password
+      if (this.loginValidation()) {
+        try {
+          const res = await this.$auth.loginWith('local', {
+            data: {
+              login: login,
+              password: password
+            }
+          })
+          if (res.status && res.status === 200) {
+            try {
+              const user = await this.$axios.$get('/users/me')
+              this.$auth.setUser(user)
+            } catch (e) {
+              if (e.response.status === 403) {
+                await this.$router.push('/confirm')
+              }
+            }
+          }
+        } catch(e) {
+          if (e.response.status === 404) {
+            console.log('User not found.')
+          }
         }
-      })
+      }
     },
+    loginValidation() {
+      if (this.login.trim().length < 1) {
+        console.log('login error')
+        return false
+      }
+      if (this.password.trim().length < 1) {
+        console.log('password error')
+        return false
+      }
+      else {
+        return true
+      }
+    },
+    registerValidation() {
+      if (this.rLogin.trim().length < 1) {
+        console.log('rlogin error')
+        return false
+      }
+      if (this.rEmail.trim().length < 1) {
+        console.log('remail error')
+        return false
+      }
+      if (this.rPassword.trim().length < 1) {
+        console.log('rpassword error')
+        return false
+      }
+      if (this.rPassword.trim() !== this.rPasswordRetype.trim()) {
+        console.log('rpassword confirm error')
+        return false
+      }
+      else {
+        return true
+      }
+    }
   },
 
 }
