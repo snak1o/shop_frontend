@@ -2,6 +2,7 @@ export const state = () => ({
   cart: [],
   cartPrice: 0,
   shipping: null,
+  emailConfirmed: false,
 })
 
 export const actions = {
@@ -50,11 +51,15 @@ export const mutations = {
   },
   setShipping(state, shipping) {
     state.shipping = shipping
+  },
+  setEmailConfirmed(state, bool) {
+    state.emailConfirmed = bool
   }
 }
 export const getters = {
   cart: state => state.cart,
   cartPrice: state => state.cartPrice,
   shipping: state => state.shipping,
+  emailConfirmed: state => state.emailConfirmed,
 }
 
