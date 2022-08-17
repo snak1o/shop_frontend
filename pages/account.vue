@@ -12,6 +12,11 @@
 export default {
   name: "Account",
   middleware: 'auth',
+  mounted() {
+    if (!this.$store.getters['emailConfirmed']) {
+      this.$router.push('/confirm')
+    }
+  },
   methods: {
     async logout() {
       await this.$auth.logout({}, {
