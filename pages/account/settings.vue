@@ -37,7 +37,8 @@ export default {
   },
   async mounted() {
     try {
-      await this.$auth.fetchUser()
+      const user = await this.$axios.$get('/users/me')
+      this.$auth.setUser(user)
     } catch (e) {
     }
     this.email = this.$auth.user.email
