@@ -26,7 +26,12 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: ['@/plugins/auth.js'],
   axios: {
-    baseURL: process.env.HOST_API + '/api/v1',
+
+  },
+  publicRuntimeConfig: {
+    axios: {
+      baseURL: process.env.HOST_API + '/api/v1',
+    }
   },
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -34,7 +39,6 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/dotenv',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
