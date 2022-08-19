@@ -19,9 +19,15 @@ export default {
         }
       }
       catch (e) {
-        if (e.response.status === 403) {
-          if(this.$route.fullPath.includes('/account')) {
-            await this.$router.push('/confirm')
+        if (e.response) {
+          if (e.response.status === 403) {
+            if(this.$route.fullPath.includes('/account')) {
+              await this.$router.push('/confirm')
+            }
+          }
+          else {
+            this.$auth.setUser(null)
+            this.$auth.reset()
           }
         }
       }
