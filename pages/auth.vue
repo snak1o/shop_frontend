@@ -15,7 +15,7 @@
           <input type="password" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4 outline-none" v-model="password" id="password" />
         </div>
         <div class="flex justify-center">
-          <button class="md:w-1/3 w-2/3 rounded-md bg-indigo-500 hover:bg-indigo-600 p-3 text-white mt-2" @click="signIn(login, password)">Log in</button>
+          <button class="md:w-1/3 w-2/3 rounded-md bg-indigo-500 hover:bg-indigo-600 p-3 text-white mt-2" @click="signIn(login.trim(), password.trim())">Log in</button>
         </div>
       </div>
 
@@ -65,25 +65,35 @@ export default {
       rPasswordRetype: "",
     }
   },
+  computed: {
+    registerCheck() {
+      return (/\s/).test(this.rLogin.trim())
+    }
+  },
   methods: {
     async signUp() {
      if (this.registerValidation()) {
        try {
          const res = await this.$axios.post('/users/sign-up', {
-           email: this.rEmail,
-           login: this.rLogin,
-           password: this.rPassword
+           email: this.rEmail.trim(),
+           login: this.rLogin.trim(),
+           password: this.rPassword.trim()
          })
          if (res.status === 201) {
            await this.signIn(this.rLogin, this.rPassword)
          }
        }catch (e) {
-         console.log(e)
+         if (e.response) {
+           console.log('ошибка', e.response.status)
+         }
+         else {
+           console.log(e.message)
+         }
        }
      }
     },
     async signIn(login, password) {
-      if (this.loginValidation()) {
+      if (this.loginValidation(login, password)) {
         try {
           const res = await this.$auth.loginWith('local', {
             data: {
@@ -91,7 +101,7 @@ export default {
               password: password
             }
           })
-          if (res.status && res.status === 200) {
+          if (res && res.status === 200) {
             try {
               const user = await this.$axios.$get('/users/me')
               this.$auth.setUser(user)
@@ -102,19 +112,27 @@ export default {
             }
           }
         } catch(e) {
-          if (e.response.status === 404) {
-            console.log('User not found.')
+          if (e.response) {
+            if (e.response.status === 404) {
+              console.log('User not found.')
+            }
+            else {
+              console.log(e.response.status, ' error')
+            }
+          }
+          else {
+            console.log(e.message)
           }
         }
       }
     },
-    loginValidation() {
-      if (this.login.trim().length < 1) {
-        console.log('login error')
+    loginValidation(login, password) {
+      if (login.length < 2) {
+        console.log('Minimum length of login is 2 characters')
         return false
       }
-      if (this.password.trim().length < 1) {
-        console.log('password error')
+      if (password.length < 8) {
+        console.log('Minimum length of password is 8 characters')
         return false
       }
       else {
@@ -122,20 +140,24 @@ export default {
       }
     },
     registerValidation() {
-      if (this.rLogin.trim().length < 1) {
-        console.log('rlogin error')
+      if (!this.rEmail.trim().match( /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
+        console.log('Wrong email format')
         return false
       }
-      if (this.rEmail.trim().length < 1) {
-        console.log('remail error')
+      if (this.rLogin.trim().length < 2) {
+        console.log('Minimum length of login is 2 characters')
         return false
       }
-      if (this.rPassword.trim().length < 1) {
-        console.log('rpassword error')
+      if (this.registerCheck) {
+        console.log('Login can not contain whitespaces')
+        return false
+      }
+      if (this.rPassword.trim().length < 8) {
+        console.log('Minimum length of password is 8 characters')
         return false
       }
       if (this.rPassword.trim() !== this.rPasswordRetype.trim()) {
-        console.log('rpassword confirm error')
+        console.log('passwords dont match')
         return false
       }
       else {
