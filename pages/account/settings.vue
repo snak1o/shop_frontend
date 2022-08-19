@@ -36,11 +36,6 @@ export default {
     }
   },
   async mounted() {
-    try {
-      const user = await this.$axios.$get('/users/me')
-      this.$auth.setUser(user)
-    } catch (e) {
-    }
     this.email = this.$auth.user.email
   },
   methods: {

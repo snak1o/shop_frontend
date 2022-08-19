@@ -83,11 +83,6 @@ export default {
     }
   },
   async mounted() {
-    try {
-      const user = await this.$axios.$get('/users/me')
-      this.$auth.setUser(user)
-    } catch (e) {
-    }
     this.firstName = this.$auth.user.firstName
     this.lastName = this.$auth.user.lastName
     this.login = this.$auth.user.login
