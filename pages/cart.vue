@@ -5,7 +5,7 @@
       <!--      Cart products list        -->
       <div class="w-full flex-col flex h-[40rem] lg:w-4/6 border-t overflow-y-auto">
         <div class="py-3 border-b flex flex-col items-center md:flex-row md:items-normal" v-for="product in cart" :key="product.id + product.selectedColor.id">
-          <img class="h-48 w-48 object-contain rounded-md mr-5" :src="host + product.images[0].filename" :alt="product.name">
+          <img class="h-48 w-48 object-contain rounded-md mr-5" :src="getHost + product.images[0].filename" :alt="product.name">
           <div class="flex justify-between w-full flex-col items-center md:flex-row md:items-normal space-y-5 md:space-y-0">
             <div class="flex flex-col justify-between">
               <div class="flex flex-col space-y-1">
@@ -41,7 +41,7 @@
       <CartSummary class="w-full lg:w-2/6" :get-sum="getSum"/>
      </div>
     <div class="flex flex-col space-y-5" v-else>
-      <StaticNotification class="info">Your cart is empty</StaticNotification>
+      <StaticNotification class="bg-indigo-500" :allowClose="false">Your cart is empty</StaticNotification>
       <router-link class="text-indigo-600 font-semibold justify-center flex" to="/">
         Continue Shopping
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -59,7 +59,6 @@ export default {
     return {
       cart: [],
       shipping: 0,
-      host: process.env.HOST_API,
     }
   },
   mounted() {
@@ -69,6 +68,9 @@ export default {
     getSum() {
       return this.$store.getters['cartPrice']
     },
+    getHost() {
+      return this.$axios.defaults.baseURL.replace('/api/v1', '')
+    }
   },
   methods: {
     removeOne(item) {
