@@ -1,6 +1,5 @@
 <template>
   <div class="flex flex-col space-y-4">
-    {{test}}
     <StaticNotification class="bg-indigo-500" v-if="message" :allowClose="true" @close="message = null">{{message}}</StaticNotification>
     <StaticNotification class="bg-red-500" v-if="error" :allowClose="true" @close="error = null">{{error}}</StaticNotification>
     <div class="flex flex-col space-y-1">
@@ -131,9 +130,6 @@ export default {
        return true
      }
     },
-    test() {
-      return
-    }
   },
   methods: {
     async updateInfo() {
