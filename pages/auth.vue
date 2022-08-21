@@ -3,6 +3,8 @@
     <h1 class="text-3xl mb-5">
       Authorization
     </h1>
+    <StaticNotification class="bg-red-500 mb-5" v-if="confirmEmail === false">Your email is not confirmed yet.</StaticNotification>
+    <StaticNotification class="bg-indigo-500 mb-5" v-if="successRegister">You successfully registered. Please confirm your email address to get access to your account.</StaticNotification>
     <div class="flex w-full flex-col lg:flex-row h-full space-y-5 lg:space-y-0 lg:space-x-5">
       <div class="flex flex-col w-full lg:w-6/12 justify-center space-y-3">
         <h2 class="text-xl text-center">Login</h2>
@@ -63,12 +65,16 @@ export default {
       rEmail: "",
       rPassword: "",
       rPasswordRetype: "",
+      successRegister: false,
     }
   },
   computed: {
     registerCheck() {
       return (/\s/).test(this.rLogin.trim())
-    }
+    },
+    confirmEmail() {
+      return this.$store.getters['emailConfirmed']
+    },
   },
   methods: {
     async signUp() {
@@ -80,11 +86,12 @@ export default {
            password: this.rPassword.trim()
          })
          if (res.status === 201) {
-           await this.signIn(this.rLogin, this.rPassword)
+           this.successRegister = true
+           this.rEmail = this.rLogin = this.rPassword = this.rPasswordRetype = ""
          }
        }catch (e) {
          if (e.response) {
-           console.log('ошибка', e.response.status)
+           console.log('Error ', e.response.status)
          }
          else {
            console.log(e.message)
@@ -95,20 +102,27 @@ export default {
     async signIn(login, password) {
       if (this.loginValidation(login, password)) {
         try {
-          const res = await this.$auth.loginWith('local', {
-            data: {
-              login: login,
-              password: password
-            }
+          const res = await this.$axios.post("/users/sign-in", {
+            login: login,
+            password: password
+          }, {
+            withCredentials: true
           })
           if (res && res.status === 200) {
+            this.$auth.strategy.token.set(res.data.accessToken)
             try {
-              const user = await this.$axios.$get('/users/me')
-              this.$auth.setUser(user)
-            } catch (e) {
-              if (e.response.status === 403) {
-                await this.$router.push('/confirm')
+              const user = await this.$axios.get('/users/me')
+              if (user && user.status === 200) {
+                await this.$auth.setUser(user.data)
+                await this.$store.commit('setEmailConfirmed', true)
               }
+            } catch (e) {
+             if (e.response) {
+               if (e.response.status === 403) {
+                 await this.$store.commit('setEmailConfirmed', false)
+                 await this.$auth.reset()
+               }
+             }
             }
           }
         } catch(e) {
@@ -125,6 +139,7 @@ export default {
           }
         }
       }
+      this.login = this.password = ""
     },
     loginValidation(login, password) {
       if (login.length < 2) {
