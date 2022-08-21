@@ -2,7 +2,7 @@ export const state = () => ({
   cart: [],
   cartPrice: 0,
   shipping: null,
-  emailConfirmed: false,
+  emailConfirmed: null,
 })
 
 export const actions = {
