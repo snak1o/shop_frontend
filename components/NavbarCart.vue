@@ -18,7 +18,12 @@ export default {
   },
   mounted() {
     if (process.browser) {
-      this.cart = JSON.parse(localStorage.getItem('cart'))
+      if (localStorage.hasOwnProperty('cart')) {
+        this.cart = JSON.parse(localStorage.getItem('cart'))
+      }
+      else {
+        this.cart = []
+      }
       this.$store.commit('updateCart', this.cart)
       return this.cart
     }
