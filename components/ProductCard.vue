@@ -1,7 +1,7 @@
 <template>
   <div class="relative" >
     <div class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden hover:opacity-75 lg:h-80 lg:aspect-none cursor-pointer" @click.prevent="$router.push('/boats/' + product.id)">
-      <img :src="host + product.images[0].filename" :alt="product.name" class="w-full h-full object-center object-cover lg:w-full lg:h-full" v-if="product.images" />
+      <img :src="getHost + product.images[0].filename" :alt="product.name" class="w-full h-full object-center object-cover lg:w-full lg:h-full" v-if="product.images" />
     </div>
     <div class="mt-4 flex justify-between items-end">
       <div>
@@ -27,9 +27,9 @@ export default {
   },
   name: "ProductCard",
   props: ["product"],
-  data() {
-    return {
-      host: process.env.HOST_API,
+  computed: {
+    getHost() {
+      return this.$axios.defaults.baseURL.replace('/api/v1', '')
     }
   },
   methods: {

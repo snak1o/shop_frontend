@@ -5,8 +5,8 @@
         <div class="lg:w-1/2 w-full h-auto select-none space-y-5 flex flex-col items-center">
           <img alt="ecommerce" class="object-cover object-center cursor-pointer rounded" :src="activeImg" @click="preview = true" >
           <div class="inline-grid grid-cols-5 gap-5 items-center">
-            <div v-for="img in item.images" :key="img.id" class="h-24 cursor-pointer flex justify-center" @click="activeImg = host + img.filename">
-              <img class=" object-cover object-center rounded" :src="host + img.filename" :alt="item.name" />
+            <div v-for="img in item.images" :key="img.id" class="h-24 cursor-pointer flex justify-center" @click="activeImg = getHost + img.filename">
+              <img class=" object-cover object-center rounded" :src="getHost + img.filename" :alt="item.name" />
             </div>
           </div>
         </div>
@@ -60,15 +60,19 @@ export default {
       activeImg: '',
       preview: false,
       selectedColor: "",
-      host: process.env.HOST_API,
       cat: ''
     }
   },
   async mounted() {
     this.item  = await this.$axios.$get('/items/' + this.$route.params.id)
     console.log(this.item)
-    this.activeImg = process.env.HOST_API + this.item.images[0].filename
+    this.activeImg = this.getHost + this.item.images[0].filename
     this.cat = this.item.category.name
+  },
+  computed: {
+    getHost() {
+      return this.$axios.defaults.baseURL.replace('/api/v1', '')
+    }
   },
   methods: {
     addToCart() {
@@ -85,7 +89,7 @@ export default {
     getIndex() {
       let index = 0
       for (let i in this.item.images) {
-        if (this.host + this.item.images[i].filename === this.activeImg) {
+        if (this.getHost + this.item.images[i].filename === this.activeImg) {
           index = i
         }
       }
@@ -95,14 +99,14 @@ export default {
       let i = this.getIndex()
       if (i < (this.item.images.length - 1)) {
         i ++
-        this.activeImg = this.host + this.item.images[i].filename
+        this.activeImg = this.getHost + this.item.images[i].filename
       }
     },
     prevImage() {
       let i = this.getIndex()
       if (i > 0) {
         i--
-        this.activeImg = this.host + this.item.images[i].filename
+        this.activeImg = this.getHost + this.item.images[i].filename
       }
     }
   },
