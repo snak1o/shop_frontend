@@ -46,7 +46,7 @@
     </table>
   </div>
   <div class="flex flex-col space-y-5 mt-5 lg:mt-0" v-else>
-    <StaticNotification class="info">No orders to display</StaticNotification>
+    <StaticNotification class="bg-indigo-500" :allowClose="false">No orders to display</StaticNotification>
     <router-link class="text-indigo-600 font-semibold justify-center flex" to="/">
       Explore market
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
