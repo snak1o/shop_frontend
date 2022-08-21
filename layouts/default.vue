@@ -13,23 +13,14 @@ export default {
     if (this.$auth.strategy.token.get()) {
       try {
         const res = await this.$axios.get('/users/me')
-        this.$auth.setUser(res.data)
         if (res && res.status === 200) {
+          this.$auth.setUser(res.data)
           this.$store.commit('setEmailConfirmed', true)
         }
       }
       catch (e) {
-        if (e.response) {
-          if (e.response.status === 403) {
-            if(this.$route.fullPath.includes('/account')) {
-              await this.$router.push('/confirm')
-            }
-          }
-          else {
-            this.$auth.setUser(null)
-            this.$auth.reset()
-          }
-        }
+        this.$auth.setUser(null)
+        this.$auth.reset()
       }
     }
   }
