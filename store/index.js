@@ -1,50 +1,81 @@
 export const state = () => ({
   cart: [],
+  cartProducts: [],
   cartPrice: 0,
   shipping: null,
   emailConfirmed: null,
 })
 
 export const actions = {
-}
-
-export const mutations = {
-  removeQuantity(state, item) {
-    for (let i = 0; i < Object.keys(state.cart).length; i++) {
-      if (state.cart[i].selectedColor.id === item.selectedColor.id && state.cart[i].id === item.id) {
-        state.cart[i].quantity--
-        localStorage.setItem("cart", JSON.stringify(state.cart))
-        state.shipping = null
-        return
+  async setProducts({commit, state}) {
+    let products = []
+    let cart = state.cart
+    for (let prod in cart) {
+      try {
+        const res = await this.$axios.get('/items/' + cart[prod].itemId)
+        if (res && res.status === 200) {
+          let quantity = cart[prod].quantity
+          let item = res.data
+          try {
+            const res = await this.$axios.get('/colors/' + cart[prod].colorId)
+            if (res && res.status === 200) {
+              let color = res.data
+              products.push({...item, quantity, color})
+            }
+          }catch (e) {
+            console.log(e)
+          }
+        }
+        else {
+          this.cart = []
+          localStorage.setItem('cart', JSON.stringify([]))
+        }
+      } catch (e) {
+        console.log(e.message)
       }
     }
-    state.cart.push(item)
-    localStorage.setItem("cart", JSON.stringify(state.cart))
+    commit('setCartProducts', products)
   },
-  addQuantity(state, item) {
+}
+export const mutations = {
+  async addToCart(state, {itemId, colorId, quantity}) {
     for (let i = 0; i < state.cart.length; i++) {
-      if (state.cart[i].selectedColor.id === item.selectedColor.id && state.cart[i].id === item.id) {
+      if (state.cart[i].itemId === itemId && state.cart[i].colorId === colorId) {
         state.cart[i].quantity++
         localStorage.setItem("cart", JSON.stringify(state.cart))
+        await this.dispatch('setProducts')
         return
       }
     }
-    state.cart.push(item)
+    state.cart.push({itemId, colorId, quantity})
     localStorage.setItem("cart", JSON.stringify(state.cart))
+    await this.dispatch('setProducts')
   },
-  removeItemFromCart(state, item) {
-    for (let i = 0; i < Object.keys(state.cart).length; i++) {
-      if (state.cart[i].selectedColor.id === item.selectedColor.id && state.cart[i].id === item.id) {
+  async decreaseQuantity(state, {itemId, colorId, quantity}) {
+    for (let i = 0; i < state.cart.length; i++) {
+      if (state.cart[i].itemId === itemId && state.cart[i].colorId === colorId) {
+        if (state.cart[i].quantity > 1) {
+          state.cart[i].quantity--
+          localStorage.setItem("cart", JSON.stringify(state.cart))
+          await this.dispatch('setProducts')
+          return
+        }
+        else {
+          state.cart.splice(i, 1)
+          localStorage.setItem('cart', JSON.stringify(state.cart))
+          await this.dispatch('setProducts')
+        }
+      }
+    }
+  },
+  async removeFromCart(state, {itemId, colorId}) {
+    for (let i = 0; i < state.cart.length; i++) {
+      if (state.cart[i].itemId === itemId && state.cart[i].colorId === colorId) {
         state.cart.splice(i, 1)
-        localStorage.setItem("cart", JSON.stringify(state.cart))
-        state.shipping = null
-        return
+        localStorage.setItem('cart', JSON.stringify(state.cart))
+        await this.dispatch('setProducts')
       }
     }
-    localStorage.setItem("cart", JSON.stringify(state.cart))
-  },
-  setCartPrice(state, price) {
-    state.cartPrice = price
   },
   updateCart(state, cart) {
     state.cart = cart
@@ -52,14 +83,21 @@ export const mutations = {
   setShipping(state, shipping) {
     state.shipping = shipping
   },
-  setEmailConfirmed(state, bool) {
-    state.emailConfirmed = bool
+  setEmailConfirmed(state, payload) {
+    state.emailConfirmed = payload
+  },
+  setCartPrice(state, payload) {
+    state.cartPrice = payload
+  },
+  setCartProducts(state, payload) {
+    state.cartProducts = payload
   }
 }
 export const getters = {
   cart: state => state.cart,
-  cartPrice: state => state.cartPrice,
   shipping: state => state.shipping,
   emailConfirmed: state => state.emailConfirmed,
+  cartPrice: state => state.cartPrice,
+  cartProducts: state => state.cartProducts
 }
 
