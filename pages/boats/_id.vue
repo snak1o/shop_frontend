@@ -41,7 +41,7 @@
             </span>
           <div class="flex">
             <span class="title-font font-medium text-2xl text-gray-900">{{item.price}}€</span>
-            <button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" @click="addToCart">Add to cart</button>
+            <button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" @click="$store.commit('addToCart', {itemId: item.id, quantity: quantity, colorId: selectedColor.id})">Add to cart</button>
           </div>
         </div>
       </div>
@@ -65,7 +65,6 @@ export default {
   },
   async mounted() {
     this.item  = await this.$axios.$get('/items/' + this.$route.params.id)
-    console.log(this.item)
     this.activeImg = this.getHost + this.item.images[0].filename
     this.cat = this.item.category.name
   },
@@ -75,17 +74,6 @@ export default {
     }
   },
   methods: {
-    addToCart() {
-      let quantity = this.quantity
-      let selectedColor = this.selectedColor
-      let item = this.item
-      if (selectedColor === "") {
-        console.log('no color selected')
-      }
-      else {
-        this.$store.commit('addQuantity', { ...item, quantity, selectedColor})
-      }
-    },
     getIndex() {
       let index = 0
       for (let i in this.item.images) {
