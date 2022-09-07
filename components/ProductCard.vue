@@ -5,7 +5,7 @@
     </div>
     <div class="mt-4 flex justify-between items-end">
       <div>
-        <span class="text-sm text-gray-500 tracking-widest">Buster</span>
+        <span class="text-sm text-gray-500 tracking-widest">{{product.category.name}}</span>
         <h3 class="text-md font-semibold text-gray-700">
           <router-link :to="'/boats/' + product.id">
             {{ product.name }}
@@ -22,9 +22,6 @@
 
 <script>
 export default {
-  mounted() {
-
-  },
   name: "ProductCard",
   props: ["product"],
   computed: {
@@ -32,11 +29,6 @@ export default {
       return this.$axios.defaults.baseURL.replace('/api/v1', '')
     }
   },
-  methods: {
-    addToCart(product) {
-      this.$store.commit('addQuantity', {...product, color: this.color})
-    }
-  }
 }
 </script>
 
