@@ -1,16 +1,16 @@
 <template>
   <section class="container mx-auto p-5">
     <h1 class="text-3xl pb-5">Shopping Cart</h1>
-    <div class="flex w-full h-full flex-col lg:flex-row space-y-10 lg:space-y-0 lg:space-x-10" v-if="cart && cart.length !== 0">
+    <div class="flex w-full h-full flex-col lg:flex-row space-y-10 lg:space-y-0 lg:space-x-10" v-if="getProducts && getProducts.length !== 0">
       <!--      Cart products list        -->
       <div class="w-full flex-col flex h-[40rem] lg:w-4/6 border-t overflow-y-auto">
-        <div class="py-3 border-b flex flex-col items-center md:flex-row md:items-normal" v-for="product in cart" :key="product.id + product.selectedColor.id">
+        <div class="py-3 border-b flex flex-col items-center md:flex-row md:items-normal" v-for="product in getProducts" :key="product.id + product.color.id">
           <img class="h-48 w-48 object-contain rounded-md mr-5" :src="getHost + product.images[0].filename" :alt="product.name">
           <div class="flex justify-between w-full flex-col items-center md:flex-row md:items-normal space-y-5 md:space-y-0">
             <div class="flex flex-col justify-between">
               <div class="flex flex-col space-y-1">
                 <span class="font-semibold text-xl">{{product.name}}</span>
-                <span class="text-gray-500">{{product.selectedColor.name}} <Badge v-if="product.selectedColor.price !== 0" class="ml-1" :class="classPrice(product.selectedColor.price)">{{product.selectedColor.price > 0 ? '+' : ""}}{{product.selectedColor.price}}€</Badge></span>
+                <span class="text-gray-500">{{product.color.name}} <Badge v-if="product.color.price !== 0" class="ml-1" :class="classPrice(product.color.price)">{{product.color.price > 0 ? '+' : ""}}{{product.color.price}}€</Badge></span>
                 <span class="font-semibold">{{product.price}}€</span>
               </div>
               <span class="text-gray-500 flex items-center text-sm mt-3 md:mt-0">
@@ -21,16 +21,16 @@
                </span>
             </div>
             <div class="flex items-center h-10 space-x-3 select-none">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 cursor-pointer" viewBox="0 0 20 20" fill="currentColor" @click="removeOne(product)">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 cursor-pointer" viewBox="0 0 20 20" fill="currentColor" @click="$store.commit('decreaseQuantity', {itemId: product.id, colorId: product.color.id, quantity: product.quantity})">
                 <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
               </svg>
                 <span class="py-1 px-3">{{product.quantity}}</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 cursor-pointer" viewBox="0 0 20 20" fill="currentColor" @click="addOne(product)">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 cursor-pointer" viewBox="0 0 20 20" fill="currentColor" @click="$store.commit('addToCart', {itemId: product.id, colorId: product.color.id, quantity: product.quantity})">
                 <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
               </svg>
             </div>
             <div class="text-gray-500">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" @click="removeItem(product)">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" @click="$store.commit('removeFromCart', {itemId: product.id, colorId: product.color.id})">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </div>
@@ -57,14 +57,14 @@
 export default {
   data() {
     return {
-      cart: [],
       shipping: 0,
+      cartPrice: 0
     }
   },
-  mounted() {
-    this.cart = this.$store.getters['cart']
-  },
   computed: {
+    getProducts() {
+      return this.$store.getters.cartProducts
+    },
     getSum() {
       return this.$store.getters['cartPrice']
     },
@@ -73,23 +73,6 @@ export default {
     }
   },
   methods: {
-    removeOne(item) {
-      if (item.quantity <= 1) {
-        this.removeItem(item)
-      }
-      else {
-        this.$store.commit("removeQuantity", item)
-        this.cart = this.$store.getters.cart
-      }
-    },
-    addOne(item) {
-      this.$store.commit('addQuantity', item)
-      this.cart = this.$store.getters.cart
-    },
-    removeItem(item) {
-      this.$store.commit('removeItemFromCart', item)
-      this.cart = this.$store.getters.cart
-    },
     classPrice(price) {
       if (price > 0) {
         return 'bg-blue-100 text-blue-800'
