@@ -4,12 +4,12 @@
       <div v-if="isSelected">
         <h2 class="text-2xl font-semibold select-none">Order summary</h2>
         <ul>
-          <li class="flex justify-between border-b py-4"><span class="text-gray-500">Subtotal</span><span class="font-semibold">{{(getSum - (getSum * 0.1935)).toFixed(2)}}€</span></li>
+          <li class="flex justify-between border-b py-4"><span class="text-gray-500">Subtotal</span><span class="font-semibold">{{((getSum - selectedShipping.price) - ((getSum - selectedShipping.price) * 0.1935)).toFixed(2)}}€</span></li>
           <li class="flex justify-between border-b py-4"><span class="text-gray-500">Shipping cost</span><span class="font-semibold">{{selectedShipping.price === 0 ? 'free': (selectedShipping.price - (selectedShipping.price * 0.1935)).toFixed(2) + '€'}}</span></li>
           <li class="flex justify-between border-b py-4"><span class="text-gray-500">Tax fee</span><span class="font-semibold">{{(getSum * 0.1935).toFixed(2)}}€</span></li>
           <li class="flex justify-between py-4 text-xl"><span>Order total</span><span>{{getSum.toFixed(2)}}€</span></li>
         </ul>
-        <button class="py-3 mt-3 w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-md">Checkout</button>
+        <button class="py-3 mt-3 w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-md" @click="$router.push('/checkout')">Checkout</button>
       </div>
       <div v-else :class="$auth.loggedIn ? '' : 'blur'">
         <h2 class="text-2xl font-semibold select-none">Shipping method</h2>
@@ -51,7 +51,9 @@ export default {
   data() {
     return {
       delivery: [],
-      selectedShipping: {},
+      selectedShipping: {
+        price: 0
+      },
       isSelected: false,
     }
   },
@@ -75,7 +77,7 @@ export default {
         this.isSelected = true
         this.$store.commit('setShipping', this.selectedShipping)
       }
-    }
+    },
   }
 }
 </script>
