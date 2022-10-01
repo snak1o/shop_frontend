@@ -51,7 +51,7 @@ export const mutations = {
     localStorage.setItem("cart", JSON.stringify(state.cart))
     await this.dispatch('setProducts')
   },
-  async decreaseQuantity(state, {itemId, colorId, quantity}) {
+  async decreaseQuantity(state, {itemId, colorId}) {
     for (let i = 0; i < state.cart.length; i++) {
       if (state.cart[i].itemId === itemId && state.cart[i].colorId === colorId) {
         if (state.cart[i].quantity > 1) {
@@ -73,6 +73,7 @@ export const mutations = {
       if (state.cart[i].itemId === itemId && state.cart[i].colorId === colorId) {
         state.cart.splice(i, 1)
         localStorage.setItem('cart', JSON.stringify(state.cart))
+        state.shipping = null
         await this.dispatch('setProducts')
       }
     }
