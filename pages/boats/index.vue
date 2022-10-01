@@ -12,7 +12,7 @@
 <script>
 export default {
   async mounted() {
-    this.categories = await this.$axios.$get('/categories')
+    this.categories = await this.$axios.$get('/categories/')
   },
   data() {
     return {
