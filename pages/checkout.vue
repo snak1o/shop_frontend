@@ -1,6 +1,6 @@
 <template>
-  <section class="container mx-auto p-5 space-x-5 w-full">
-    <div class="w-1/2 flex flex-col space-y-3">
+  <section class="container mx-auto p-5 space-x-10 w-full flex">
+    <div class="w-3/5 flex flex-col space-y-3">
       <h2 class="text-2xl mb-3">Invoice information</h2>
       <div class="flex space-x-5">
         <div class="flex flex-col space-y-1 w-full">
@@ -8,13 +8,13 @@
           <input type="text" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4 outline-none" id="firstName" v-model="getUser.firstName" />
         </div>
         <div class="flex flex-col space-y-1 w-full">
-          <label for="firstName" class="text-gray-600">Last name</label>
+          <label for="lastName" class="text-gray-600">Last name</label>
           <input type="text" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4 outline-none" id="lastName" v-model="getUser.lastName" />
         </div>
       </div>
       <div class="flex flex-col space-y-1 w-full">
-        <label for="firstName" class="text-gray-600">Company name (optional)</label>
-        <input type="text" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4 outline-none" id="company name" v-model="getUser.lastName" />
+        <label for="companyName" class="text-gray-600">Company name (optional)</label>
+        <input type="text" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4 outline-none" id="companyName" v-model="getUser.companyName" />
       </div>
 
       <div class="flex flex-col space-y-1">
@@ -56,15 +56,15 @@
           <input type="text" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4 outline-none w-9/12" v-model="getUser.phone.phoneNumber" placeholder="Phone number" />
         </div>
       </div>
-
       <div class="flex flex-col space-y-1">
-        <label for="firstName" class="text-gray-600">Email</label>
-        <input type="text" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4 outline-none" v-model="getUser.email" id="email" />
+        <label for="comment" class="text-gray-600">Comment</label>
+        <textarea type="text" class="bg-gray-50 rounded-md border-gray-100 ring-2 ring-gray-100 focus:ring-indigo-500 py-2 px-4 outline-none" rows="3" placeholder="Any special information.." v-model="comment" id="comment" />
       </div>
     </div>
 
-    <div class="w-1/2">
+    <div class="w-2/5 flex flex-col space-y-5">
       <CheckoutSummary/>
+      <PaymentMethod @process="createOrder"/>
     </div>
   </section>
 </template>
@@ -78,6 +78,7 @@ export default {
       user: {
         firstName: "",
         lastName: "",
+        companyName: "",
         login: "",
         phone: {
           phoneCode: "",
@@ -97,6 +98,7 @@ export default {
         },
         email: "",
       },
+      comment: "",
       coutries: ["Finland", "Sweden", "Norway"],
     }
   },
@@ -108,26 +110,36 @@ export default {
       if (this.$auth.user.lastName) {
         this.user.lastName = this.$auth.user.lastName
       }
+      if (this.$auth.user.companyName) {
+        this.user.companyName = this.$auth.user.companyName
+      }
       this.user.email = this.$auth.user.email
       this.user.login = this.$auth.user.login
       if (this.$auth.user.phone) {
-        this.user.phone.phoneCode = this.$auth.user.phone.phoneCode
-        this.user.phone.phoneNumber = this.$auth.user.phone.phoneNumber
+        this.user.phone= {...this.$auth.user.phone}
       }
       if (this.$auth.user.invoiceAddress) {
-        this.user.invoiceAddress.country = this.$auth.user.invoiceAddress.country
-        this.user.invoiceAddress.city = this.$auth.user.invoiceAddress.city
-        this.user.invoiceAddress.zip = this.$auth.user.invoiceAddress.zip
-        this.user.invoiceAddress.street = this.$auth.user.invoiceAddress.street
+        this.user.invoiceAddress = { ...this.$auth.user.invoiceAddress }
       }
       if (this.$auth.user.shippingAddress) {
-        this.user.shippingAddress.country = this.$auth.user.shippingAddress.country
-        this.user.shippingAddress.city = this.$auth.user.shippingAddress.city
-        this.user.shippingAddress.zip = this.$auth.user.shippingAddress.zip
-        this.user.shippingAddress.street = this.$auth.user.shippingAddress.street
+        this.user.shippingAddress = {...this.$auth.user.shippingAddress}
       }
       return this.user
     },
+  },
+  methods: {
+    async createOrder() {
+      try {
+        const res = await this.$axios.post('/orders/create', {
+          comment: this.comment,
+          deliveryId: this.$store.getters.shipping.id,
+          items: this.$store.getters.cart
+        })
+        console.log(res)
+      }catch (e) {
+        console.log(e)
+      }
+    }
   }
 }
 </script>
