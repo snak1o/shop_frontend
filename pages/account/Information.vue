@@ -140,7 +140,9 @@ export default {
             lastName: this.user.lastName.trim(),
             login: this.user.login.trim(),
             phoneCode: this.user.phone.phoneCode.trim(),
-            phoneNumber: this.user.phone.phoneNumber.trim()
+            phoneNumber: this.user.phone.phoneNumber.trim(),
+            //fix
+            companyName: ''
           })
           if (res && res.status === 200) {
             this.message = 'Information updated successfully.'
